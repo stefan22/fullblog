@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
 
@@ -13,14 +11,24 @@ export const Navbar = () => {
                     </h1>
                 </Link>
                 <div className="flex items-center gap-2">
-                    <Link href="/">Home</Link>
-                    <Link href="/blog">Blog</Link>
-                    <Link href="/create">Create</Link>
+                    <Link className={buttonVariants({
+                        variant: "ghost",
+                    })} href="/">Home</Link>
+
+                    <Link className={buttonVariants({
+                        variant: "ghost",
+                    })} href="/blog">Blog</Link>
+
+                    <Link className={buttonVariants({
+                        variant: "ghost",
+                    })} href="/create">Create</Link>
                 </div>
             </div>
             <div className="flex items-center gap-2">
                 <Link className={buttonVariants()} href="/auth/sign-up">Sign Up</Link>
-                <Link href="/auth/sign-in">Sign In</Link>
+                <Link className={buttonVariants({
+                    variant: "outline",
+                })} href="/auth/sign-in">Sign In</Link>
             </div>
         </nav>
     )
