@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
+import { ConvexClientProvider } from '@/app/ConvexClientProvider';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const interSans = Inter({
+  variable: '--font-inter-sans',
   subsets: ['latin'],
 });
 
@@ -20,14 +21,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       suppressHydrationWarning={true}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      className={`${interSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
@@ -35,7 +34,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange>
           <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
-            {children}
+            <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
         </ThemeProvider>
       </body>
