@@ -22,5 +22,3 @@ components
  > web
   - Navbar.tsx (React components)
 ```
-
-47"

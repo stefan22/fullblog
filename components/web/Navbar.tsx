@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/web/ThemeToggle';
 
 export const Navbar = () => {
   return (
@@ -47,6 +48,7 @@ export const Navbar = () => {
           href="/auth/sign-in">
           Sign In
         </Link>
+        <ThemeToggle />
       </div>
     </nav>
   );
