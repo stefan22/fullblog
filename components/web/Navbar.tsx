@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import {buttonVariants} from "@/components/ui/button";
 
 export const Navbar = () => {
     return (
@@ -16,7 +19,7 @@ export const Navbar = () => {
                 </div>
             </div>
             <div className="flex items-center gap-2">
-                <Link href="/auth/sign-up">Sign Up</Link>
+                <Link className={buttonVariants()} href="/auth/sign-up">Sign Up</Link>
                 <Link href="/auth/sign-in">Sign In</Link>
             </div>
         </nav>
