@@ -21,4 +21,14 @@ components
 
  > web
   - Navbar.tsx (React components)
+  
+  
+Shared Layout Navigation
+- Home page
+- Blog page
+- Create page  
+  
+Auth pages
+- Sign-in page
+- Sign-up page    
 ```
