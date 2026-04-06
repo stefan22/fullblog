@@ -1,3 +1,111 @@
+'use client';
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
+
+import { Button, buttonVariants } from '@/components/ui/button';
+import { signUpSchema } from '@/app/schemas/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import {
+  Field,
+  FieldLabel,
+  FieldGroup,
+  FieldError,
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+
 export default function SignUpPage() {
-  return <h1>Sign up page</h1>;
+  const form = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: '',
+      name: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = () => {
+    console.log('onSubmit');
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Sign Up</CardTitle>
+        <CardDescription>Create an account to get started</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FieldGroup className={'gap-4'}>
+            <Controller
+              name="name"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Fullname</FieldLabel>
+                  <Input
+                    aria-invalid={fieldState.invalid}
+                    type="name"
+                    placeholder="Enter name"
+                    {...field}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="email"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Email</FieldLabel>
+                  <Input
+                    aria-invalid={fieldState.invalid}
+                    type="email"
+                    placeholder="Enter email"
+                    {...field}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="password"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Password</FieldLabel>
+                  <Input
+                    aria-invalid={fieldState.invalid}
+                    type="password"
+                    placeholder="Enter password"
+                    {...field}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Button className={buttonVariants({ variant: 'default' })}>
+              Sign Up
+            </Button>
+          </FieldGroup>
+        </form>
+      </CardContent>
+    </Card>
+  );
 }
