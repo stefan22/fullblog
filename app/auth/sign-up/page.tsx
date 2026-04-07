@@ -20,6 +20,8 @@ import {
   FieldError,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { authClient } from '@/lib/auth-client';
+import z from 'zod';
 
 export default function SignUpPage() {
   const form = useForm({
@@ -31,8 +33,13 @@ export default function SignUpPage() {
     },
   });
 
-  const onSubmit = () => {
+  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     console.log('onSubmit');
+    await authClient.signUp.email({
+      email: data.email,
+      name: data.name,
+      password: data.password,
+    });
   };
 
   return (
