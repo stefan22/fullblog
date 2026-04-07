@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import {
   Card,
   CardHeader,
@@ -105,6 +106,12 @@ export default function SignUpPage() {
             </Button>
           </FieldGroup>
         </form>
+        <p className="flex justify-center w-full text-muted-foreground text-xs pt-3">
+          Must have a valid account. &nbsp;{' '}
+          <Link className="text-blue-900" href="/">
+            Back to home page
+          </Link>
+        </p>
       </CardContent>
     </Card>
   );
