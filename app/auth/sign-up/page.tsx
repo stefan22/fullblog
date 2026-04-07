@@ -35,11 +35,27 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     console.log('onSubmit');
+
     await authClient.signUp.email({
       email: data.email,
-      name: data.name,
       password: data.password,
+      name: data.name,
+
+      callbackURL: "/dashboard" // A URL to redirect to after the user verifies their email (optional)
+    }, {
+      onRequest: (_ctx) => {
+        //show loading
+      },
+      onSuccess: (_ctx) => {
+        //redirect to the dashboard or sign in page
+      },
+      onError: (ctx) => {
+        // display the error message
+        alert(ctx.error.message);
+      },
     });
+
+
   };
 
   return (

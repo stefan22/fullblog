@@ -43,6 +43,9 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+
+  --font-inter: interSans, sans-serif;
+  --font-geist-mono: 'Geist Mono', serif;
 }
 
 .dark {
@@ -86,7 +89,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
 
@@ -159,6 +162,6 @@
     @apply bg-background text-foreground;
   }
   html {
-    /*@apply font-sans;*/
+    @apply font-sans;
   }
 }
