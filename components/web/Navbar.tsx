@@ -5,6 +5,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/web/ThemeToggle';
 import { useConvexAuth } from 'convex/react';
 import { authClient } from '@/lib/auth-client';
+import { toast } from 'sonner';
 
 export const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -48,7 +49,23 @@ export const Navbar = () => {
         {isLoading ?
           'Loading...'
         : isAuthenticated ?
-          <Button onClick={() => authClient.signOut({})}>Sign Out</Button>
+          <Button
+            onClick={() =>
+              authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    toast.success('Signed out successfully.', {
+                      position: 'top-left',
+                    });
+                  },
+                  onError: (err) => {
+                    toast.error(err.error.message, { position: 'top-left' });
+                  },
+                },
+              })
+            }>
+            Sign Out
+          </Button>
         : <>
             <Link className={buttonVariants()} href="/auth/sign-up">
               Sign Up

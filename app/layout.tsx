@@ -3,6 +3,7 @@ import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { ConvexClientProvider } from '@/components/web/ConvexClientProvider';
+import { Toaster } from '@/components/ui/sonner';
 
 const interSans = Inter({
   variable: '--font-inter-sans',
@@ -36,6 +37,7 @@ export default function RootLayout({
           <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
             <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
