@@ -34,32 +34,31 @@ export default function SignUpPage() {
   });
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    console.log('onSubmit');
+    await authClient.signUp.email(
+      {
+        email: data.email,
+        password: data.password,
+        name: data.name,
 
-    await authClient.signUp.email({
-      email: data.email,
-      password: data.password,
-      name: data.name,
-
-      callbackURL: "/dashboard" // A URL to redirect to after the user verifies their email (optional)
-    }, {
-      onRequest: (_ctx) => {
-        //show loading
+        callbackURL: '/dashboard', // A URL to redirect to after the user verifies their email (optional)
       },
-      onSuccess: (_ctx) => {
-        //redirect to the dashboard or sign in page
-      },
-      onError: (ctx) => {
-        // display the error message
-        alert(ctx.error.message);
-      },
-    });
-
-
+      {
+        onRequest: (_ctx) => {
+          //show loading
+        },
+        onSuccess: (_ctx) => {
+          //redirect to the dashboard or sign in page
+        },
+        onError: (ctx) => {
+          // display the error message
+          alert(ctx.error.message);
+        },
+      }
+    );
   };
 
   return (
-    <Card>
+    <Card className="px-4 py-8">
       <CardHeader>
         <CardTitle>Sign Up</CardTitle>
         <CardDescription>Create an account to get started</CardDescription>
@@ -74,9 +73,15 @@ export default function SignUpPage() {
                 <Field>
                   <FieldLabel>Fullname</FieldLabel>
                   <Input
+                    className={buttonVariants({
+                      size: 'lg',
+                      variant: 'outline',
+                    })}
                     aria-invalid={fieldState.invalid}
                     type="name"
                     placeholder="Enter name"
+                    autoComplete="name"
+                    required
                     {...field}
                   />
                   {fieldState.invalid && (
@@ -93,9 +98,15 @@ export default function SignUpPage() {
                 <Field>
                   <FieldLabel>Email</FieldLabel>
                   <Input
+                    className={buttonVariants({
+                      size: 'lg',
+                      variant: 'outline',
+                    })}
                     aria-invalid={fieldState.invalid}
                     type="email"
                     placeholder="Enter email"
+                    autoComplete="email"
+                    required
                     {...field}
                   />
                   {fieldState.invalid && (
@@ -112,9 +123,15 @@ export default function SignUpPage() {
                 <Field>
                   <FieldLabel>Password</FieldLabel>
                   <Input
+                    className={buttonVariants({
+                      size: 'lg',
+                      variant: 'outline',
+                    })}
                     aria-invalid={fieldState.invalid}
                     type="password"
+                    autoComplete="current-password"
                     placeholder="Enter password"
+                    required
                     {...field}
                   />
                   {fieldState.invalid && (
@@ -123,16 +140,21 @@ export default function SignUpPage() {
                 </Field>
               )}
             />
-
-            <Button className={buttonVariants({ variant: 'default' })}>
+            <div className="gap-4" />
+            <Button
+              className={buttonVariants({
+                variant: 'default',
+                size: 'lg',
+              })}>
+              {' '}
               Sign Up
             </Button>
           </FieldGroup>
         </form>
         <p className="flex justify-center w-full text-muted-foreground text-xs pt-3">
-          Must have a valid account. &nbsp;{' '}
-          <Link className="text-blue-900" href="/">
-            Back to home page
+          Already have an account? &nbsp;{' '}
+          <Link className="text-blue-900" href="/auth/sign-in">
+            To Sign In click here.
           </Link>
         </p>
       </CardContent>
