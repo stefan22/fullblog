@@ -1,3 +1,120 @@
+'use client';
+
+import { signInSchema } from '@/app/schemas/auth';
+import { useForm, Controller } from 'react-hook-form';
+import {
+  Field,
+  FieldLabel,
+  FieldGroup,
+  FieldError,
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { authClient } from '@/lib/auth-client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z from 'zod';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button, buttonVariants } from '@/components/ui/button';
+import Link from 'next/link';
+
 export default function SignInPage() {
-  return <h1>Sign In</h1>;
+  const form = useForm({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSignin = async (data: z.infer<typeof signInSchema>) => {
+    await authClient.signIn.email({
+      email: data.email,
+      password: data.password,
+      callbackURL: '/',
+    });
+  };
+
+  return (
+    <Card className="px-4 py-8">
+      <CardHeader>
+        <CardTitle>Sign In</CardTitle>
+        <CardDescription>Signin with your email and password</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={form.handleSubmit(onSignin)}>
+          <FieldGroup className={'gap-4'}>
+            <Controller
+              name="email"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Email</FieldLabel>
+                  <Input
+                    className={buttonVariants({
+                      size: 'lg',
+                      variant: 'outline',
+                    })}
+                    aria-invalid={fieldState.invalid}
+                    type="email"
+                    placeholder="Enter email"
+                    autoComplete="email"
+                    required
+                    {...field}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="password"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Password</FieldLabel>
+                  <Input
+                    className={buttonVariants({
+                      size: 'lg',
+                      variant: 'outline',
+                    })}
+                    aria-invalid={fieldState.invalid}
+                    type="password"
+                    autoComplete="current-password"
+                    placeholder="Enter password"
+                    required
+                    {...field}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <div className="gap-4" />
+            <Button
+              className={buttonVariants({
+                variant: 'default',
+                size: 'lg',
+              })}>
+              {' '}
+              Sign In
+            </Button>
+          </FieldGroup>
+        </form>
+        <p className="flex justify-center w-full text-muted-foreground text-xs pt-3">
+          Must have a valid account to signin. &nbsp;{' '}
+          <Link className="text-blue-900" href="/auth/sign-up">
+            Click here to Sign Up.
+          </Link>
+        </p>
+      </CardContent>
+    </Card>
+  );
 }

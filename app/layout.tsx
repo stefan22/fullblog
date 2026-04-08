@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
-import { ConvexClientProvider } from '@/app/ConvexClientProvider';
+import { ConvexClientProvider } from '@/components/web/ConvexClientProvider';
 
 const interSans = Inter({
   variable: '--font-inter-sans',

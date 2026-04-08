@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/web/ThemeToggle';
 import { useConvexAuth } from 'convex/react';
+import { authClient } from '@/lib/auth-client';
 
 export const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -30,7 +31,7 @@ export const Navbar = () => {
             className={buttonVariants({
               variant: 'ghost',
             })}
-            href="/blog">
+            href="/auth/blog">
             Blog
           </Link>
 
@@ -38,7 +39,7 @@ export const Navbar = () => {
             className={buttonVariants({
               variant: 'ghost',
             })}
-            href="/create">
+            href="/auth/create">
             Create
           </Link>
         </div>
@@ -47,7 +48,7 @@ export const Navbar = () => {
         {isLoading ?
           'Loading...'
         : isAuthenticated ?
-          <Button>Logout</Button>
+          <Button onClick={() => authClient.signOut({})}>Sign Out</Button>
         : <>
             <Link className={buttonVariants()} href="/auth/sign-up">
               Sign Up
