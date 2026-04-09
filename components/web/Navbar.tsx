@@ -72,10 +72,10 @@ export const Navbar = () => {
                   },
                 });
               })
-
-
             }>
-            {isPending ? <span>See ya!</span> : <span>Sign Out</span>}
+            {isPending ?
+              <span>See ya!</span>
+            : <span>Sign Out</span>}
           </Button>
         : <>
             <Link className={buttonVariants()} href="/auth/sign-up">

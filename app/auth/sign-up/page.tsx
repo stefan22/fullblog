@@ -48,20 +48,20 @@ export default function SignUpPage() {
         },
         {
           onSuccess: () => {
-            toast.success('Signed up successfully!', { position: 'bottom-right' });
+            toast.success('Signed up successfully!', {
+              position: 'bottom-right',
+            });
             router.push('/');
           },
           onError: (err) => {
             toast.error(err.error.message, {
-              position: 'bottom-right'
+              position: 'bottom-right',
             });
-          }
-        },
-
+          },
+        }
       );
     });
   }; //onSignup
-
 
   return (
     <Card className="px-4 py-8">
@@ -151,8 +151,10 @@ export default function SignUpPage() {
               className={buttonVariants({
                 variant: 'default',
                 size: 'lg',
-              })}
-            >{isPending ? <span>Loading...</span> : <span>Sign Up</span>}
+              })}>
+              {isPending ?
+                <span>Loading...</span>
+              : <span>Sign Up</span>}
             </Button>
           </FieldGroup>
         </form>
