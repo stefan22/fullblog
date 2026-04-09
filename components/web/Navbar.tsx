@@ -6,9 +6,13 @@ import { ThemeToggle } from '@/components/web/ThemeToggle';
 import { useConvexAuth } from 'convex/react';
 import { authClient } from '@/lib/auth-client';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 
 export const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   return (
     <nav className="w-full py-5 flex items-center justify-between">
@@ -51,20 +55,27 @@ export const Navbar = () => {
         : isAuthenticated ?
           <Button
             onClick={() =>
-              authClient.signOut({
-                fetchOptions: {
-                  onSuccess: () => {
-                    toast.success('Signed out successfully.', {
-                      position: 'top-left',
-                    });
+              startTransition(async () => {
+                await authClient.signOut({
+                  fetchOptions: {
+                    onSuccess: () => {
+                      toast.success('Signed out successfully.', {
+                        position: 'bottom-right',
+                      });
+                      router.push('/');
+                    },
+                    onError: (err) => {
+                      toast.error(err.error.message, {
+                        position: 'bottom-right',
+                      });
+                    },
                   },
-                  onError: (err) => {
-                    toast.error(err.error.message, { position: 'top-left' });
-                  },
-                },
+                });
               })
+
+
             }>
-            Sign Out
+            {isPending ? <span>See ya!</span> : <span>Sign Out</span>}
           </Button>
         : <>
             <Link className={buttonVariants()} href="/auth/sign-up">

@@ -22,6 +22,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { authClient } from '@/lib/auth-client';
 import z from 'zod';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { toast } from 'sonner';
 
 export default function SignUpPage() {
   const form = useForm({
@@ -32,30 +35,33 @@ export default function SignUpPage() {
       password: '',
     },
   });
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
-  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    await authClient.signUp.email(
-      {
-        email: data.email,
-        password: data.password,
-        name: data.name,
+  const onSignup = async (data: z.infer<typeof signUpSchema>) => {
+    startTransition(async () => {
+      await authClient.signUp.email(
+        {
+          email: data.email,
+          password: data.password,
+          name: data.name,
+        },
+        {
+          onSuccess: () => {
+            toast.success('Signed up successfully!', { position: 'bottom-right' });
+            router.push('/');
+          },
+          onError: (err) => {
+            toast.error(err.error.message, {
+              position: 'bottom-right'
+            });
+          }
+        },
 
-        callbackURL: '/dashboard', // A URL to redirect to after the user verifies their email (optional)
-      },
-      {
-        onRequest: (_ctx) => {
-          //show loading
-        },
-        onSuccess: (_ctx) => {
-          //redirect to the dashboard or sign in page
-        },
-        onError: (ctx) => {
-          // display the error message
-          alert(ctx.error.message);
-        },
-      }
-    );
-  };
+      );
+    });
+  }; //onSignup
+
 
   return (
     <Card className="px-4 py-8">
@@ -64,7 +70,7 @@ export default function SignUpPage() {
         <CardDescription>Create an account to get started</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSignup)}>
           <FieldGroup className={'gap-4'}>
             <Controller
               name="name"
@@ -145,9 +151,8 @@ export default function SignUpPage() {
               className={buttonVariants({
                 variant: 'default',
                 size: 'lg',
-              })}>
-              {' '}
-              Sign Up
+              })}
+            >{isPending ? <span>Loading...</span> : <span>Sign Up</span>}
             </Button>
           </FieldGroup>
         </form>

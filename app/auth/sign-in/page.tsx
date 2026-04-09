@@ -21,6 +21,9 @@ import {
 } from '@/components/ui/card';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { toast }  from 'sonner';
 
 export default function SignInPage() {
   const form = useForm({
@@ -30,13 +33,28 @@ export default function SignInPage() {
       password: '',
     },
   });
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const onSignin = async (data: z.infer<typeof signInSchema>) => {
-    await authClient.signIn.email({
-      email: data.email,
-      password: data.password,
-      callbackURL: '/',
-    });
+    startTransition(async () => {
+      await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success('Signed in Successfully', {
+              position: 'bottom-right'
+            });
+            router.push('/');
+          },
+          onError: (err) => {
+            toast.error(err.error.message);
+          }
+        },
+      });
+
+    })
   };
 
   return (
@@ -103,8 +121,8 @@ export default function SignInPage() {
                 variant: 'default',
                 size: 'lg',
               })}>
-              {' '}
-              Sign In
+              {isPending ? <span>Loading...</span> : <span>Sign In</span>}
+
             </Button>
           </FieldGroup>
         </form>
