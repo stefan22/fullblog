@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
-export const Navbar = () => {
+const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -25,6 +25,7 @@ export const Navbar = () => {
 
         <div className="flex items-center gap-2">
           <Link
+            data-testid={`nav-link-home`}
             className={buttonVariants({
               variant: 'ghost',
             })}
@@ -33,6 +34,7 @@ export const Navbar = () => {
           </Link>
 
           <Link
+            data-testid={`nav-link-blog`}
             className={buttonVariants({
               variant: 'ghost',
             })}
@@ -41,6 +43,7 @@ export const Navbar = () => {
           </Link>
 
           <Link
+            data-testid={`nav-link-create`}
             className={buttonVariants({
               variant: 'ghost',
             })}
@@ -54,6 +57,7 @@ export const Navbar = () => {
           'Loading...'
         : isAuthenticated ?
           <Button
+            data-testid={`nav-link-signout`}
             onClick={() =>
               startTransition(async () => {
                 await authClient.signOut({
@@ -78,11 +82,15 @@ export const Navbar = () => {
             : <span>Sign Out</span>}
           </Button>
         : <>
-            <Link className={buttonVariants()} href="/auth/sign-up">
+            <Link
+              data-testid={`nav-link-signup`}
+              className={buttonVariants()}
+              href="/auth/sign-up">
               Sign Up
             </Link>
 
             <Link
+              data-testid={`nav-link-signin`}
               className={buttonVariants({
                 variant: 'outline',
               })}

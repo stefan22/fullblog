@@ -50,3 +50,12 @@ Auth pages
 App directory
 Shared layout components
 Auth layout components
+
+## Testing libs
+
+- vitest testing framework
+  - @vitejs/plugin-react
+  - jsdom
+  - @testing-library/react
+  - @testing-library/jest-dom
+  - vite-tsconfig-paths
