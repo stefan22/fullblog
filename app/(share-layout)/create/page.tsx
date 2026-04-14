@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, buttonVariants } from '@/components/ui/button';
+
 import {
   Card,
   CardContent,
@@ -17,14 +18,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { Loader2 } from 'lucide-react';
-
-import { useTransition } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { postSchema } from '@/app/schemas/blog';
-
-
+import z from 'zod';
+import { createBlogAction } from '@/app/actions';
+import { useTransition } from 'react';
 
 export default function CreateRoute() {
   const [isPending, startTransition] = useTransition();
@@ -34,9 +33,14 @@ export default function CreateRoute() {
     defaultValues: {
       content: '',
       title: '',
-    }
-  })
+    },
+  });
 
+  function onSubmit(values: z.infer<typeof postSchema>) {
+    startTransition(async () => {
+      await createBlogAction(values);
+    });
+  }
 
   return (
     <div className="py-12">
@@ -45,7 +49,7 @@ export default function CreateRoute() {
           Create Post
         </h1>
         <p className="text-xl text-muted-foreground pt-4">
-          Sharing is Caring. Let's write a new post!
+          Sharing is Caring. Let&apos;s write a new post!
         </p>
       </div>
 
@@ -54,8 +58,9 @@ export default function CreateRoute() {
           <CardTitle>Create Blog Article</CardTitle>
           <CardDescription>Create a new blog article</CardDescription>
         </CardHeader>
+
         <CardContent>
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup className="gap-y-4">
               <Controller
                 name="title"
@@ -93,35 +98,11 @@ export default function CreateRoute() {
                 )}
               />
 
-              <Controller
-                name="image"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field>
-                    <FieldLabel>Image</FieldLabel>
-                    <Input
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Super cool blog content"
-                      type="file"
-                      accept="image/*"
-                      onChange={(event) => {
-                        const file = event.target.files?.[0];
-                        field.onChange(file);
-                      }}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
               <Button
                 className={buttonVariants({
                   variant: 'default',
                   size: 'lg',
-                })}
-                disabled={isPending}>
+                })}>
                 {isPending ?
                   <>
                     <Loader2 className="size-4 animate-spin" />

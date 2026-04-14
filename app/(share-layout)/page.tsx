@@ -17,16 +17,10 @@ export default function Home() {
       <section className="flex-1 flex flex-col items-center justify-center py-16 px-4 text-center ">
         <div className="space-y-6 max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/60">
-            Welcome to My Blog
+            CakeStack
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            A simple Next.js 16 tutorial project exploring the new features and
-            best practices. Built with Convex, Tailwind CSS, and love.
-          </p>
+          <p className="text-xl text-muted-foreground leading-relaxed"></p>
           <div className="flex items-center justify-center gap-4 pt-4">
-            <Button asChild size="lg" className="rounded-full px-8">
-              <Link href="/blog">Start Reading</Link>
-            </Button>
             <Button
               asChild
               variant="outline"
