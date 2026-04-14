@@ -38,7 +38,7 @@ const Navbar = () => {
             className={buttonVariants({
               variant: 'ghost',
             })}
-            href="/auth/blog">
+            href="/blog">
             Blog
           </Link>
 
@@ -47,7 +47,7 @@ const Navbar = () => {
             className={buttonVariants({
               variant: 'ghost',
             })}
-            href="/auth/create">
+            href="/create">
             Create
           </Link>
         </div>

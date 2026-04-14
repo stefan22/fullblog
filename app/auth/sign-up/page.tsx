@@ -64,7 +64,7 @@ export default function SignUpPage() {
   }; //onSignup
 
   return (
-    <Card className="px-4 py-8">
+    <Card className="px-4 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <CardHeader>
         <CardTitle>Sign Up</CardTitle>
         <CardDescription>Create an account to get started</CardDescription>

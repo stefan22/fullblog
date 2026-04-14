@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
 export default function SignInPage() {
   const form = useForm({
@@ -57,7 +58,7 @@ export default function SignInPage() {
   };
 
   return (
-    <Card className="px-4 py-8">
+    <Card className="px-4 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <CardHeader>
         <CardTitle>Sign In</CardTitle>
         <CardDescription>Signin with your email and password</CardDescription>
@@ -121,7 +122,10 @@ export default function SignInPage() {
                 size: 'lg',
               })}>
               {isPending ?
-                <span>Loading...</span>
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  <span>Loading...</span>
+                </>
               : <span>Sign In</span>}
             </Button>
           </FieldGroup>
