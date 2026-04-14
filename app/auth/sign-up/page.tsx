@@ -161,8 +161,9 @@ export default function SignUpPage() {
         <p className="flex justify-center w-full text-muted-foreground text-xs pt-3">
           Already have an account? &nbsp;{' '}
           <Link className="text-blue-900" href="/auth/sign-in">
-            To Sign In click here.
+            Click here
           </Link>
+          &nbsp; to sign in.
         </p>
       </CardContent>
     </Card>

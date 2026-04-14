@@ -131,10 +131,11 @@ export default function SignInPage() {
           </FieldGroup>
         </form>
         <p className="flex justify-center w-full text-muted-foreground text-xs pt-3">
-          Must have a valid account to signin. &nbsp;{' '}
+          Don&apos;t have an account?. &nbsp;{' '}
           <Link className="text-blue-900" href="/auth/sign-up">
-            Click here to Sign Up.
+            Click here
           </Link>
+          &nbsp; to sign up.
         </p>
       </CardContent>
     </Card>
