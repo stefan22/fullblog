@@ -23,7 +23,7 @@ const Navbar = () => {
           </h1>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden sm:flex sm:items-center sm:gap-2">
           <Link
             data-testid={`nav-link-home`}
             className={buttonVariants({

@@ -7,10 +7,10 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Blog | Next.js 16 Tutorial',
-  description: 'Read our latest articles and insights.',
-  category: 'Web development',
-  authors: [{ name: 'Jan marshal' }],
+  title: 'CakeStack Blog',
+  description: 'We love cake and web development',
+  category: 'web development',
+  authors: [{ name: 'Admin@CakeStack' }],
 };
 
 export default function BlogPage() {
@@ -18,10 +18,10 @@ export default function BlogPage() {
     <div className="py-12">
       <div className="text-center pb-12">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Our Blog
+          Blog Posts
         </h1>
         <p className="pt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
-          Insights, thoughts, and trends from our team.
+          Frontend development insights
         </p>
       </div>
 
@@ -36,7 +36,7 @@ const LoadBlogList = async () => {
   const data = await fetchQuery(api.posts.getPosts);
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 mb-12 md:grid-cols-2 lg:grid-cols-3">
       {data?.map((post) => (
         <Card key={post._id}>
           <CardTitle>

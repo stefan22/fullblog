@@ -12,9 +12,9 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col ">
+    <div className="flex mb-12 flex-col ">
       {/* Hero Section */}
-      <section className="flex-1 flex flex-col items-center justify-center py-16 px-4 text-center ">
+      <section className="flex-1 flex flex-col items-center justify-center py-16 px-0 sm:px-4 text-center ">
         <div className="space-y-6 max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/60">
             CakeStack
@@ -33,7 +33,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-6 px-4">
+      <section className="py-0 px-0 sm:py-6 sm:px-4">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl mx-auto">
           <Card className="flex flex-col border-none shadow-md hover:shadow-lg transition-shadow duration-300">
             <CardHeader>
@@ -53,8 +53,9 @@ export default function Home() {
               <Link
                 href="/"
                 className={buttonVariants({
-                  variant: 'outline',
                   className: 'w-full',
+                  variant: 'outline',
+                  size: 'lg',
                 })}>
                 Go Home
               </Link>
@@ -80,6 +81,7 @@ export default function Home() {
                 className={buttonVariants({
                   variant: 'outline',
                   className: 'w-full',
+                  size: 'lg',
                 })}>
                 Visit Blog
               </Link>
@@ -104,8 +106,9 @@ export default function Home() {
               <Link
                 href="/create"
                 className={buttonVariants({
-                  variant: 'outline',
                   className: 'w-full',
+                  variant: 'outline',
+                  size: 'lg',
                 })}>
                 Create Post
               </Link>
