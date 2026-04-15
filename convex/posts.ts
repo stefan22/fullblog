@@ -7,6 +7,7 @@ export const createPost = mutation({
   args: {
     title: v.string(),
     body: v.string(),
+    imageStorageId: v.id('_storage'),
   },
   handler: async (ctx, args) => {
     const user = await authComponent.safeGetAuthUser(ctx);
@@ -19,6 +20,7 @@ export const createPost = mutation({
       body: args.body,
       title: args.title,
       authorId: user._id,
+      imageStorageId: args.imageStorageId,
     });
 
     return blogArticle;
@@ -32,8 +34,14 @@ export const getPosts = query({
 
     return await Promise.all(
       posts.map(async (post) => {
+        const resolvedImageUrl =
+          post.imageStorageId !== undefined ?
+            await ctx.storage.getUrl(post.imageStorageId)
+          : null;
+
         return {
           ...post,
+          imageUrl: resolvedImageUrl,
         };
       })
     );
@@ -64,8 +72,14 @@ export const getPostById = query({
       return null;
     }
 
+    const resolvedImageUrl =
+      post?.imageStorageId !== undefined ?
+        await ctx.storage.getUrl(post.imageStorageId)
+      : null;
+
     return {
       ...post,
+      imageUrl: resolvedImageUrl,
     };
   },
 });
