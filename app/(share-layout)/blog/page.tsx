@@ -4,7 +4,9 @@ import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const metadata: Metadata = {
   title: 'CakeStack Blog',
@@ -25,7 +27,7 @@ export default function BlogPage() {
         </p>
       </div>
 
-      <Suspense fallback={'Loading...'}>
+      <Suspense fallback={<SkeletonLoadingUi />}>
         <LoadBlogList />
       </Suspense>
     </div>
@@ -33,12 +35,22 @@ export default function BlogPage() {
 }
 
 const LoadBlogList = async () => {
+  'use cache';
   const data = await fetchQuery(api.posts.getPosts);
 
   return (
     <div className="grid gap-6 mb-12 md:grid-cols-2 lg:grid-cols-3">
       {data?.map((post) => (
-        <Card key={post._id}>
+        <Card className="pt-0" key={post._id}>
+          <div className="relative h-48 w-full overflow-hidden">
+            <Image
+              src={post.imageUrl ?? '/images/covers/leaves.jpg'}
+              fill
+              alt="leaves"
+              className="rounded-t-lg object-cover"
+            />
+          </div>
+
           <CardTitle>
             <h1 className="text-2xl font-bold hover:text-primary px-4">
               <Link href={`/blog/${post._id}`}>{post.title}</Link>
@@ -62,3 +74,20 @@ const LoadBlogList = async () => {
     </div>
   );
 };
+
+function SkeletonLoadingUi() {
+  return (
+    <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-3">
+      {[...Array(3)].map((_, i) => (
+        <div className="flex flex-col space-y-3" key={i}>
+          <Skeleton className="h-48 w-full rounded-xl" />
+          <div className="space-y-2 flex flex-col">
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

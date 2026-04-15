@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/card';
 import { BookOpen, HomeIcon, PenTool } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+
 
 export default function Home() {
   return (
@@ -40,9 +42,24 @@ export default function Home() {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
                 <HomeIcon className="w-6 h-6" />
               </div>
-              <CardTitle>Home</CardTitle>
+              <CardTitle>
+                <h1 className="text-2xl text-pretty hover:text-gray-700 cursor-pointer">
+                  Home
+                </h1>
+              </CardTitle>
               <CardDescription>Return to the landing page</CardDescription>
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src={'/images/covers/leaves.jpg'}
+                  fill
+                  alt="leaves"
+                  sizes={'lg'}
+                  loading="eager"
+                  className="rounded-sm object-cover"
+                />
+              </div>
             </CardHeader>
+
             <CardContent className="flex-1">
               <p className="text-sm text-muted-foreground">
                 You are currently on the home page. This is the entry point of
@@ -67,8 +84,23 @@ export default function Home() {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
                 <BookOpen className="w-6 h-6" />
               </div>
-              <CardTitle>Blog</CardTitle>
+              <CardTitle>
+                <h1 className="text-2xl text-pretty hover:text-gray-700 cursor-pointer">
+                  Blog
+                </h1>
+              </CardTitle>
+
               <CardDescription>Read our latest articles</CardDescription>
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src={'/images/covers/leaves.jpg'}
+                  width={625}
+                  height={350}
+                  alt="leaves"
+                  loading="eager"
+                  className="rounded-sm object-cover"
+                />
+              </div>
             </CardHeader>
             <CardContent className="flex-1">
               <p className="text-sm text-muted-foreground">
@@ -93,8 +125,22 @@ export default function Home() {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
                 <PenTool className="w-6 h-6" />
               </div>
-              <CardTitle>Create Post</CardTitle>
+              <CardTitle>
+                <h1 className="text-2xl text-pretty hover:text-gray-700 cursor-pointer">
+                  Create Post
+                </h1>
+              </CardTitle>
               <CardDescription>Share your thoughts</CardDescription>
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src={'/images/covers/leaves.jpg'}
+                  width={625}
+                  height={350}
+                  alt="leaves"
+                  loading="eager"
+                  className="rounded-sm object-cover"
+                />
+              </div>
             </CardHeader>
             <CardContent className="flex-1">
               <p className="text-sm text-muted-foreground">
