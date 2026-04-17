@@ -18,7 +18,7 @@
     "better-auth": "1.5.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "convex": "^1.34.1",
+    "convex": "^1.35.1",
     "lucide-react": "^1.7.0",
     "next": "^16.2.3",
     "next-router-mock": "^1.0.5",

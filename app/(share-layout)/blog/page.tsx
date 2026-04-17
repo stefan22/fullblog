@@ -46,6 +46,7 @@ const LoadBlogList = async () => {
             <Image
               src={post.imageUrl ?? '/images/covers/leaves.jpg'}
               fill
+              sizes="lg"
               alt="leaves"
               className="rounded-t-lg object-cover"
             />

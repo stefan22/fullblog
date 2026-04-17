@@ -11,7 +11,6 @@ import { BookOpen, HomeIcon, PenTool } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-
 export default function Home() {
   return (
     <div className="flex mb-12 flex-col ">
@@ -51,9 +50,10 @@ export default function Home() {
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
                   src={'/images/covers/leaves.jpg'}
-                  fill
+                  width={625}
+                  height={350}
                   alt="leaves"
-                  sizes={'lg'}
+                  sizes="lg"
                   loading="eager"
                   className="rounded-sm object-cover"
                 />
@@ -97,6 +97,7 @@ export default function Home() {
                   width={625}
                   height={350}
                   alt="leaves"
+                  sizes="lg"
                   loading="eager"
                   className="rounded-sm object-cover"
                 />
@@ -137,6 +138,7 @@ export default function Home() {
                   width={625}
                   height={350}
                   alt="leaves"
+                  sizes="lg"
                   loading="eager"
                   className="rounded-sm object-cover"
                 />

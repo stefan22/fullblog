@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: 'asset.cloudinary.com',
+        hostname: 'wooden-finch-842',
         protocol: 'https',
         port: '',
       },
