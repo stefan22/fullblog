@@ -48,9 +48,9 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
     await fetchQuery(api.presence.getUserId, {}, { token }),
   ]);
 
-  if (!userId) {
-    return redirect('/auth/login');
-  }
+  // if (!userId) {
+  //   return redirect('/auth/sign-in');
+  // }
 
   if (!post) {
     return (
