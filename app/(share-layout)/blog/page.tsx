@@ -9,10 +9,10 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const metadata: Metadata = {
-  title: 'CakeStack Blog',
-  description: 'We love cake and web development',
-  category: 'web development',
-  authors: [{ name: 'Admin@CakeStack' }],
+  title: 'CakeStack Dev Blog',
+  description: 'Web Development Posts',
+  category: 'Frontend Development',
+  authors: [{ name: 'Admin@CakeStack.uk' }],
 };
 
 export default function BlogPage() {
@@ -48,6 +48,7 @@ const LoadBlogList = async () => {
               fill
               sizes="lg"
               alt="leaves"
+              loading="eager"
               className="rounded-t-lg object-cover"
             />
           </div>

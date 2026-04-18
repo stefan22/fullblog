@@ -1,5 +1,7 @@
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { CommentSection } from '@/components/web/CommentSection';
+import { PostPresence } from '@/components/web/PostPresence';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { getToken } from '@/lib/auth-server';
@@ -8,7 +10,6 @@ import { ArrowLeft } from 'lucide-react';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CommentSection } from '@/components/web/CommentSection';
 import { redirect } from 'next/navigation';
 
 interface PostIdRouteProps {
@@ -21,7 +22,6 @@ export async function generateMetadata({
   params,
 }: PostIdRouteProps): Promise<Metadata> {
   const { postId } = await params;
-
   const post = await fetchQuery(api.posts.getPostById, { postId: postId });
 
   if (!post) {
@@ -40,10 +40,17 @@ export async function generateMetadata({
 export default async function PostIdRoute({ params }: PostIdRouteProps) {
   const { postId } = await params;
 
-  const [post, preloadedComments] = await Promise.all([
+  const token = await getToken();
+
+  const [post, preloadedComments, userId] = await Promise.all([
     await fetchQuery(api.posts.getPostById, { postId }),
     await preloadQuery(api.comments.getCommentsByPostId, { postId }),
+    await fetchQuery(api.presence.getUserId, {}, { token }),
   ]);
+
+  if (!userId) {
+    return redirect('/auth/login');
+  }
 
   if (!post) {
     return (
@@ -82,6 +89,7 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
             Posted on:{' '}
             {new Date(post._creationTime).toLocaleDateString('en-GB')}
           </p>
+          {userId && <PostPresence roomId={post._id} userId={userId} />}
         </div>
       </div>
 
