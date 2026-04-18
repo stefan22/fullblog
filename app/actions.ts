@@ -4,7 +4,7 @@ import { postSchema } from '@/app/schemas/blog';
 import z from 'zod';
 import { fetchMutation } from 'convex/nextjs';
 import { api } from '@/convex/_generated/api';
-import { revalidatePath, updateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getToken } from '@/lib/auth-server';
 

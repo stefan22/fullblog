@@ -62,7 +62,13 @@ export function CommentSection(props: {
     <Card>
       <CardHeader className="flex flex-row items-center gap-2 border-b">
         <MessageSquare className="size-5" />
-        <h2 className="text-xl font-bold">{data.length === 1 ? `${data.length} Comment` : data.length > 1 ? `${data.length} Comments` : "No Comments"}</h2>
+        <h2 className="text-xl font-bold">
+          {data.length === 1 ?
+            `${data.length} Comment`
+          : data.length > 1 ?
+            `${data.length} Comments`
+          : 'No Comments'}
+        </h2>
       </CardHeader>
       <CardContent className="space-y-8">
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>

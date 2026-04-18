@@ -14,7 +14,6 @@ export const heartbeat = mutation({
     interval: v.number(),
   },
   handler: async (ctx, { roomId, userId, sessionId, interval }) => {
-    // TODO: Add your auth checks here.
     const user = await authComponent.safeGetAuthUser(ctx);
 
     if (!user || user._id !== userId) {

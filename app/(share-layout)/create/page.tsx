@@ -24,7 +24,6 @@ import { postSchema } from '@/app/schemas/blog';
 import z from 'zod';
 import { createBlogAction } from '@/app/actions';
 import { useTransition } from 'react';
-import { toast } from 'sonner';
 
 export default function CreateRoute() {
   const [isPending, startTransition] = useTransition();
@@ -39,8 +38,6 @@ export default function CreateRoute() {
   });
 
   function onSubmit(values: z.infer<typeof postSchema>) {
-    // missing: notify ui user not authenticated thus post never create
-    // backend working correctly
     startTransition(async () => {
       await createBlogAction(values);
     });

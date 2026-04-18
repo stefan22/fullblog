@@ -1,61 +1,41 @@
 A NextJS v. **16.2.2** Project
 
-## Getting Started
+## Next.js React Blog
 
-First, run the development server:
+Route groups • Dynamic route streaming • Suspense boundaries •
+Auth flow - Better Auth • Next Proxy •
+Server actions • Server-side/ Client-side validation                
+File upload Convex • Caching • Re-validation: Time-based/ On-demand • Image optimisation • Metadata • Dynamic generation Seo Tags • Cache components      
+Real-time comments Convex DB • Convex Presence (# of online users)
+
+### Tech Stack
+
+Next.js •
+Typescript •
+Convex Database •
+Shadcn •
+TailwindCSS •
+Better-Auth •
+React Hook form •
+Zod schema validation •
+Vitest testing framework •
+Eslint •
+Prettier
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Quick Start
 
-## Structure
+```jsx
+ npm install //clone & install dependencies
+ npm run dev
 
-### Components folder
+ //convex
+ npx convex dev
 
-```txt
-components
- > ui
-  - button.tsx  (Shadcn components)
-
- > web
-  - Navbar.tsx (React components)
-
-
-Shared Layout Navigation
-- Home page
-- Blog page
-- Create page
-
-Auth pages
-- Sign-in page
-- Sign-up page
+// Open http://localhost:3000
 ```
 
-### Dependencies
-
-- Shadcn design system
-  Accessible, customisable, lightweight design library.
-- React Hook form library
-- Zod (schema validation) library
-- Raddix UI primitives
-- Tailwind CSS
-- Dark mode with Next-Themes
-- ESLint
-- Prettier
-
-## Features
-
-App directory
-Shared layout components
-Auth layout components
-
-## Testing libs
-
-- vitest testing framework
-  - @vitejs/plugin-react
-  - jsdom
-  - @testing-library/react
-  - @testing-library/jest-dom
-  - vite-tsconfig-paths
+![screenshot.png](/public/covers/screenshot.png)
