@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
         port: '',
       },
       {
-        hostname: 'lovable-bloodhound-237.convex.site',
+        hostname: 'wooden-finch-842.eu-west-1.convex.site',
         protocol: 'https',
         port: '',
       },
