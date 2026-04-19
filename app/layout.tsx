@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Fullstack Blog',
-  description: 'Blog project with NextJS 16 and Shadcn',
+  title: 'CakeStack Blog',
+  description: 'Fullstack Next.js, React, Shadcn, Tailwind, Convex, Better Auth',
 };
 
 export default function RootLayout({

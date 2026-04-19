@@ -65,7 +65,10 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
       </Link>
       <div className="relative w-full h-100 mb-8 rounded-xl overflow-hidden shadow-sm">
         <Image
-          src={post.imageUrl ?? '/images/covers/leaves.jpg'}
+          src={
+            post.imageUrl ??
+            'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242402/next-blog/uh7oe6qxtuileqw8rnbm.png'
+          }
           alt={post.title}
           fill
           loading="eager"
@@ -90,7 +93,7 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
 
       <Separator className="my-8" />
 
-      <p className="text-lg leading-relaxed text-foreground/90 whitespace-pre-wrap">
+      <p className="text-md leading-relaxed text-foreground/90 whitespace-pre-wrap">
         {post.body}
       </p>
 

@@ -7,11 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+
 import { BookOpen, HomeIcon, PenTool } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function Home() {
+export default async function Home() {
+
   return (
     <div className="flex mb-12 flex-col ">
       {/* Hero Section */}
@@ -49,9 +51,10 @@ export default function Home() {
               <CardDescription>Return to the landing page</CardDescription>
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
-                  src={'/images/covers/leaves.jpg'}
-                  width={625}
-                  height={350}
+                  src={
+                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242402/next-blog/uh7oe6qxtuileqw8rnbm.png'
+                  }
+                  fill
                   alt="leaves"
                   sizes="lg"
                   loading="eager"
@@ -62,8 +65,11 @@ export default function Home() {
 
             <CardContent className="flex-1">
               <p className="text-sm text-muted-foreground">
-                You are currently on the home page. This is the entry point of
-                our application.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Praesent tempus volutpat. <br />
+                <br />
+                Etiam nunc ut accumsan. Curabitur iaculis erat faucibus enim
+                suscipit egestas. Suspendisse tortor consectetur elementum.
               </p>
             </CardContent>
             <CardFooter>
@@ -71,7 +77,7 @@ export default function Home() {
                 href="/"
                 className={buttonVariants({
                   className: 'w-full',
-                  variant: 'outline',
+                  variant: 'default',
                   size: 'lg',
                 })}>
                 Go Home
@@ -93,9 +99,10 @@ export default function Home() {
               <CardDescription>Read our latest articles</CardDescription>
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
-                  src={'/images/covers/leaves.jpg'}
-                  width={625}
-                  height={350}
+                  src={
+                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242848/next-blog/ctmsyvj9lgs1thorv1eh.png'
+                  }
+                  fill
                   alt="leaves"
                   sizes="lg"
                   loading="eager"
@@ -105,14 +112,19 @@ export default function Home() {
             </CardHeader>
             <CardContent className="flex-1">
               <p className="text-sm text-muted-foreground">
-                Browse through a collection of interesting posts and tutorials.
+                Proin semper turpis et tempor interdum. Nunc dolor nisi,
+                imperdiet ac fringilla sit amet, ullamcorper in felis.
+                <br />
+                Praesent elementum nulla sed imperdiet rhoncus. Orci varius
+                natoque penatibus et magnis dis parturient montes, nascetur
+                ridiculus mus.
               </p>
             </CardContent>
             <CardFooter>
               <Link
                 href="/blog"
                 className={buttonVariants({
-                  variant: 'outline',
+                  variant: 'default',
                   className: 'w-full',
                   size: 'lg',
                 })}>
@@ -134,9 +146,10 @@ export default function Home() {
               <CardDescription>Share your thoughts</CardDescription>
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
-                  src={'/images/covers/leaves.jpg'}
-                  width={625}
-                  height={350}
+                  src={
+                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242782/next-blog/gmmmwgaa2gjffjfatfhj.png'
+                  }
+                  fill
                   alt="leaves"
                   sizes="lg"
                   loading="eager"
@@ -146,8 +159,11 @@ export default function Home() {
             </CardHeader>
             <CardContent className="flex-1">
               <p className="text-sm text-muted-foreground">
-                Have something to say? Create a new blog post and share it with
-                the community.
+                Have something to say? <br />
+                Create a new blog post and share it with the community. Etiam
+                facilisis lacinia nunc ut accumsan. Curabitur iaculis erat
+                faucibus enim suscipit egestas. Etiam facilisis lacinia nunc ut
+                accumsan.
               </p>
             </CardContent>
             <CardFooter>
@@ -155,7 +171,7 @@ export default function Home() {
                 href="/create"
                 className={buttonVariants({
                   className: 'w-full',
-                  variant: 'outline',
+                  variant: 'default',
                   size: 'lg',
                 })}>
                 Create Post

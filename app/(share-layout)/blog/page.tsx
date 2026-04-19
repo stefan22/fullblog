@@ -2,11 +2,13 @@ import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
-import { Metadata } from 'next';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cacheLife, cacheTag } from 'next/cache';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'CakeStack Dev Blog',
@@ -14,6 +16,7 @@ export const metadata: Metadata = {
   category: 'Frontend Development',
   authors: [{ name: 'Admin@CakeStack.uk' }],
 };
+
 
 export default function BlogPage() {
   return (
@@ -36,6 +39,9 @@ export default function BlogPage() {
 
 const LoadBlogList = async () => {
   'use cache';
+  cacheLife('hours');
+  cacheTag('blog');
+
   const data = await fetchQuery(api.posts.getPosts);
 
   return (
@@ -44,7 +50,10 @@ const LoadBlogList = async () => {
         <Card className="pt-0" key={post._id}>
           <div className="relative h-48 w-full overflow-hidden">
             <Image
-              src={post.imageUrl ?? '/images/covers/leaves.jpg'}
+              src={
+                post.imageUrl ??
+                'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242402/next-blog/uh7oe6qxtuileqw8rnbm.png'
+              }
               fill
               sizes="lg"
               alt="leaves"

@@ -24,9 +24,14 @@ import { postSchema } from '@/app/schemas/blog';
 import z from 'zod';
 import { createBlogAction } from '@/app/actions';
 import { useTransition } from 'react';
+import { fetchQuery } from 'convex/nextjs';
+import { redirect } from 'next/navigation';
+import { api } from '@/convex/_generated/api';
 
-export default function CreateRoute() {
+export default async function CreateRoute() {
   const [isPending, startTransition] = useTransition();
+
+  const userId = await fetchQuery(api.presence.getUserId);
 
   const form = useForm({
     resolver: zodResolver(postSchema),
@@ -37,11 +42,17 @@ export default function CreateRoute() {
     },
   });
 
+  if (!userId) {
+    return redirect(`/auth/sign-in`);
+  }
+
   function onSubmit(values: z.infer<typeof postSchema>) {
     startTransition(async () => {
       await createBlogAction(values);
     });
   }
+
+
 
   return (
     <div className="py-12">
