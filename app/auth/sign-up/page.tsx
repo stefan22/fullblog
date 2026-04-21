@@ -7,24 +7,24 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-} from '@/components/ui/card';
-
-import { Button, buttonVariants } from '@/components/ui/button';
-import { signUpSchema } from '@/app/schemas/auth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
-import {
+  Button,
+  buttonVariants,
   Field,
   FieldLabel,
   FieldGroup,
   FieldError,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+  Input,
+} from '@/components/ui';
+
+import { signUpSchema } from '@/app/schemas/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
 import { authClient } from '@/lib/auth-client';
 import z from 'zod';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 export default function SignUpPage() {
   const form = useForm({
@@ -48,15 +48,11 @@ export default function SignUpPage() {
         },
         {
           onSuccess: () => {
-            toast.success('Signed up successfully!', {
-              position: 'bottom-right',
-            });
+            toast.success('Signed up successfully!');
             router.push('/');
           },
           onError: (err) => {
-            toast.error(err.error.message, {
-              position: 'bottom-right',
-            });
+            toast.error(err.error.message);
           },
         }
       );
@@ -79,10 +75,12 @@ export default function SignUpPage() {
                 <Field>
                   <FieldLabel>Fullname</FieldLabel>
                   <Input
-                    className={buttonVariants({
-                      size: 'lg',
-                      variant: 'outline',
-                    })}
+                    className={cn(
+                      buttonVariants({
+                        size: 'lg',
+                        variant: 'outline',
+                      })
+                    )}
                     aria-invalid={fieldState.invalid}
                     type="name"
                     placeholder="Enter name"
@@ -104,10 +102,12 @@ export default function SignUpPage() {
                 <Field>
                   <FieldLabel>Email</FieldLabel>
                   <Input
-                    className={buttonVariants({
-                      size: 'lg',
-                      variant: 'outline',
-                    })}
+                    className={cn(
+                      buttonVariants({
+                        size: 'lg',
+                        variant: 'outline',
+                      })
+                    )}
                     aria-invalid={fieldState.invalid}
                     type="email"
                     placeholder="Enter email"
@@ -129,10 +129,12 @@ export default function SignUpPage() {
                 <Field>
                   <FieldLabel>Password</FieldLabel>
                   <Input
-                    className={buttonVariants({
-                      size: 'lg',
-                      variant: 'outline',
-                    })}
+                    className={cn(
+                      buttonVariants({
+                        size: 'lg',
+                        variant: 'outline',
+                      })
+                    )}
                     aria-invalid={fieldState.invalid}
                     type="password"
                     autoComplete="current-password"
@@ -148,10 +150,12 @@ export default function SignUpPage() {
             />
             <div className="gap-4" />
             <Button
-              className={buttonVariants({
-                variant: 'default',
-                size: 'lg',
-              })}>
+              className={cn(
+                buttonVariants({
+                  variant: 'default',
+                  size: 'lg',
+                })
+              )}>
               {isPending ?
                 <span>Loading...</span>
               : <span>Sign Up</span>}

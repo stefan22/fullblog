@@ -1,14 +1,19 @@
-import { buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardTitle,
+  Skeleton,
+  buttonVariants,
+} from '@/components/ui';
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 import { cacheLife, cacheTag } from 'next/cache';
 import { Metadata } from 'next';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'CakeStack Dev Blog',
@@ -16,7 +21,6 @@ export const metadata: Metadata = {
   category: 'Frontend Development',
   authors: [{ name: 'Admin@CakeStack.uk' }],
 };
-
 
 export default function BlogPage() {
   return (
@@ -72,10 +76,12 @@ const LoadBlogList = async () => {
           </CardContent>
           <CardFooter>
             <Link
-              className={buttonVariants({
-                className: 'w-full',
-                size: 'lg',
-              })}
+              className={cn(
+                buttonVariants({
+                  className: 'w-full',
+                  size: 'lg',
+                })
+              )}
               href={`/blog/${post._id}`}>
               Read more
             </Link>

@@ -123,6 +123,7 @@ export const searchPosts = query({
 
     await pushDocs(titleMatches);
 
+    //whether to extend term search matches beyond titles
     if (results.length < limit) {
       const bodyMatches = await ctx.db
         .query('posts')

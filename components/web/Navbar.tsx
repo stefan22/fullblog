@@ -1,104 +1,104 @@
 'use client';
 
 import Link from 'next/link';
+import { useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import { useConvexAuth } from 'convex/react';
+import { toast } from 'sonner';
+
+import { authClient } from '@/lib/auth-client';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/web/ThemeToggle';
-import { useConvexAuth } from 'convex/react';
-import { authClient } from '@/lib/auth-client';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
+import { SearchInput } from '@/components/web/SearchInput';
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
+  const navLinks = [
+    { label: 'Home', href: '/', id: 'home' },
+    { label: 'Blog', href: '/blog', id: 'blog' },
+    ...(isAuthenticated ?
+      [{ label: 'Create', href: '/create', id: 'create' }]
+    : []),
+  ];
+
+  const handleSignOut = () => {
+    startTransition(async () => {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success('Signed out successfully.');
+            router.push('/');
+          },
+          onError: ({ error }) => {
+            toast.error(error.message);
+          },
+        },
+      });
+    });
+  };
+
   return (
     <nav className="w-full py-5 flex items-center justify-between">
+      {/* Left Section */}
       <div className="flex items-center gap-8">
-        <Link href="/">
-          <h1 className="text-3xl font-bold">
+        <Link href="/" className="flex items-center">
+          <h1 className="text-3xl font-bold leading-none">
             Next<span className="text-blue-500">Pro</span>
           </h1>
         </Link>
 
-        <div className="hidden sm:flex sm:items-center sm:gap-2">
-          <Link
-            data-testid={`nav-link-home`}
-            className={buttonVariants({
-              variant: 'ghost',
-            })}
-            href="/">
-            Home
-          </Link>
-
-          <Link
-            data-testid={`nav-link-blog`}
-            className={buttonVariants({
-              variant: 'ghost',
-            })}
-            href="/blog">
-            Blog
-          </Link>
-
-          <Link
-            data-testid={`nav-link-create`}
-            className={buttonVariants({
-              variant: 'ghost',
-            })}
-            href="/create">
-            Create
-          </Link>
+        <div className="hidden sm:flex items-baseline gap-2 mt-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.id}
+              href={link.href}
+              data-testid={`nav-link-${link.id}`}
+              className={buttonVariants({ variant: 'ghost' })}>
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        {isLoading ?
-          'Loading...'
-        : isAuthenticated ?
-          <Button
-            data-testid={`nav-link-signout`}
-            onClick={() =>
-              startTransition(async () => {
-                await authClient.signOut({
-                  fetchOptions: {
-                    onSuccess: () => {
-                      toast.success('Signed out successfully.', {
-                        position: 'bottom-right',
-                      });
-                      router.push('/');
-                    },
-                    onError: (err) => {
-                      toast.error(err.error.message, {
-                        position: 'bottom-right',
-                      });
-                    },
-                  },
-                });
-              })
-            }>
-            {isPending ?
-              <span>See ya!</span>
-            : <span>Sign Out</span>}
-          </Button>
-        : <>
-            <Link
-              data-testid={`nav-link-signup`}
-              className={buttonVariants()}
-              href="/auth/sign-up">
-              Sign Up
-            </Link>
 
-            <Link
-              data-testid={`nav-link-signin`}
-              className={buttonVariants({
-                variant: 'outline',
-              })}
-              href="/auth/sign-in">
-              Sign In
-            </Link>
-          </>
-        }
+      {/* Right Section */}
+      <div className="flex items-center gap-2">
+        <div className="hidden md:block mr-2">
+          <SearchInput />
+        </div>
+
+        {!isLoading && (
+          <div className="flex items-center gap-2">
+            {isAuthenticated ?
+              <Button
+                variant="destructive"
+                data-testid="nav-link-signout"
+                disabled={isPending}
+                onClick={handleSignOut}>
+                {isPending ?
+                  <span>See ya!</span>
+                : <span>Sign Out</span>}
+              </Button>
+            : <>
+                <Link
+                  data-testid="nav-link-signup"
+                  className={buttonVariants()}
+                  href="/auth/sign-up">
+                  Sign Up
+                </Link>
+
+                <Link
+                  data-testid="nav-link-signin"
+                  className={buttonVariants({ variant: 'outline' })}
+                  href="/auth/sign-in">
+                  Sign In
+                </Link>
+              </>
+            }
+          </div>
+        )}
 
         <ThemeToggle />
       </div>

@@ -1,22 +1,21 @@
 'use client';
 
-import { Button, buttonVariants } from '@/components/ui/button';
-
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import {
+  Button,
+  buttonVariants,
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+  Input,
+  Textarea,
+} from '@/components/ui';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -24,14 +23,9 @@ import { postSchema } from '@/app/schemas/blog';
 import z from 'zod';
 import { createBlogAction } from '@/app/actions';
 import { useTransition } from 'react';
-import { fetchQuery } from 'convex/nextjs';
-import { redirect } from 'next/navigation';
-import { api } from '@/convex/_generated/api';
 
-export default async function CreateRoute() {
+export default function CreateRoute() {
   const [isPending, startTransition] = useTransition();
-
-  const userId = await fetchQuery(api.presence.getUserId);
 
   const form = useForm({
     resolver: zodResolver(postSchema),
@@ -42,17 +36,11 @@ export default async function CreateRoute() {
     },
   });
 
-  if (!userId) {
-    return redirect(`/auth/sign-in`);
-  }
-
   function onSubmit(values: z.infer<typeof postSchema>) {
     startTransition(async () => {
       await createBlogAction(values);
     });
   }
-
-
 
   return (
     <div className="py-12">

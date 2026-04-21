@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -17,12 +18,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'CakeStack Blog',
-  description: 'Fullstack Next.js, React, Shadcn, Tailwind, Convex, Better Auth',
+  description:
+    'Fullstack Next.js, React, Shadcn, Tailwind, Convex, Better Auth',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="en"
@@ -37,7 +39,12 @@ export default function RootLayout({
           <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
             <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
-          <Toaster closeButton />
+          <Toaster
+            closeButton
+            position="bottom-right"
+            richColors={true}
+            containerAriaLabel="Notifications"
+          />
         </ThemeProvider>
       </body>
     </html>

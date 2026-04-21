@@ -1,34 +1,42 @@
 'use client';
 
-import { Loader2, MessageSquare } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '../ui/card';
-import { Controller, useForm } from 'react-hook-form';
+import { useTransition } from 'react';
+import { useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import z from 'zod';
+import { Loader2, MessageSquare } from 'lucide-react';
+
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+import {
+  useConvexAuth,
+  useMutation,
+  Preloaded,
+  usePreloadedQuery,
+} from 'convex/react';
 import { commentSchema } from '@/app/schemas/comment';
+
+import { Card, CardContent, CardHeader } from '../ui/card';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { useParams } from 'next/navigation';
-import { Id } from '@/convex/_generated/dataModel';
-import { useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import z from 'zod';
-import { toast } from 'sonner';
-import { useTransition } from 'react';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   AvatarBadge,
 } from '@/components/ui/avatar';
-import { Preloaded, usePreloadedQuery } from 'convex/react';
+
 
 export function CommentSection(props: {
   preloadedComments: Preloaded<typeof api.comments.getCommentsByPostId>;
 }) {
   const params = useParams<{ postId: Id<'posts'> }>();
   const data = usePreloadedQuery(props.preloadedComments);
+  const { isAuthenticated, isLoading } = useConvexAuth();
 
   const [isPending, startTransition] = useTransition();
 
@@ -42,46 +50,53 @@ export function CommentSection(props: {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof commentSchema>) {
+  async function onSubmit(values: z.infer<typeof commentSchema>) {
     startTransition(async () => {
       try {
-        await createComment(data);
-        form.reset();
+        await createComment(values);
+        form.reset({ body: '', postId: params.postId });
         toast.success('Comment posted');
-      } catch {
-        toast.error('Failed to create Comment');
+      } catch (error) {
+        toast.error('Failed to create comment');
       }
     });
   }
 
-  if (data === undefined) {
-    return <p>loading...</p>;
-  }
+  // convex data
+  if (data === undefined)
+    return (
+      <div className="p-4 text-center">
+        <Loader2 className="animate-spin mx-auto" />
+      </div>
+    );
+
+  const commentCount = data.length;
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center gap-2 border-b">
         <MessageSquare className="size-5" />
         <h2 className="text-xl font-bold">
-          {data.length === 1 ?
-            `${data.length} Comment`
-          : data.length > 1 ?
-            `${data.length} Comments`
-          : 'No Comments'}
+          {commentCount === 0 ?
+            'No Comments'
+          : `${commentCount} Comment${commentCount > 1 ? 's' : ''}`}
         </h2>
       </CardHeader>
+
       <CardContent className="space-y-8">
+        {/* Form Section */}
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <Controller
             name="body"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel>Full Name</FieldLabel>
+                <FieldLabel>Your Comment</FieldLabel>
                 <Textarea
-                  aria-invalid={fieldState.invalid}
-                  placeholder="Add your comments here"
                   {...field}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Add your comments here..."
+                  disabled={!isAuthenticated || isPending}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -89,52 +104,62 @@ export function CommentSection(props: {
               </Field>
             )}
           />
-          <p>You must be signed in to comment</p>
-          <Button disabled={isPending}>
+
+          {/* Only show the warning if NOT authenticated and NOT currently loading auth state */}
+          {!isAuthenticated && !isLoading && (
+            <p className="text-sm text-muted-foreground">
+              You must be signed in to comment
+            </p>
+          )}
+
+          <Button disabled={!isAuthenticated || isPending}>
             {isPending ?
               <>
-                <Loader2 className="size-4 animate-spin" />
-                <span>Loading...</span>
+                <Loader2 className="size-4 animate-spin mr-2" />
+                <span>Posting...</span>
               </>
-            : <span>Comment</span>}
+            : 'Comment'}
           </Button>
         </form>
 
-        {data?.length > 0 && <Separator />}
+        {data.length > 0 && (
+          <>
+            <Separator />
+            <section className="space-y-6">
+              {data.map((comment) => (
+                <div key={comment._id} className="flex gap-4">
+                  <Avatar size="lg">
+                    <AvatarImage
+                      className="grayscale"
+                      src="https://github.com/shadcn.png"
+                      alt={comment.authorName}
+                    />
+                    <AvatarFallback>
+                      {comment.authorName.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                    <AvatarBadge className="bg-green-600 dark:bg-green-800" />
+                  </Avatar>
 
-        <section className="space-y-6">
-          {data?.map((comment) => (
-            <div key={comment._id} className="flex gap-4">
-              <div className="flex flex-row flex-wrap items-center gap-6 md:gap-12">
-                <Avatar size="lg">
-                  <AvatarImage
-                    className="grayscale"
-                    src="https://github.com/shadcn.png"
-                    alt="shadcn"
-                  />
-                  <AvatarFallback>
-                    {comment.authorName.slice(0, 2).toUpperCase()}
-                  </AvatarFallback>
-                  <AvatarBadge className="bg-green-600 dark:bg-green-800" />
-                </Avatar>
-              </div>
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between">
-                  <p className="font-semibold text-sm">{comment.authorName}</p>
-                  <p className="text-muted-foreground text-xs">
-                    {new Date(comment._creationTime).toLocaleDateString(
-                      'en-GB'
-                    )}
-                  </p>
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <p className="font-semibold text-sm">
+                        {comment.authorName}
+                      </p>
+                      <p className="text-muted-foreground text-xs">
+                        {new Date(comment._creationTime).toLocaleDateString(
+                          'en-GB'
+                        )}
+                      </p>
+                    </div>
+                    <p className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed">
+                      {comment.body}
+                    </p>
+                  </div>
                 </div>
-
-                <p className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed">
-                  {comment.body}
-                </p>
-              </div>
-            </div>
-          ))}
-        </section>
+              ))}
+            </section>
+          </>
+        )}
       </CardContent>
     </Card>
   );

@@ -7,24 +7,25 @@ import {
   FieldLabel,
   FieldGroup,
   FieldError,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { authClient } from '@/lib/auth-client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import z from 'zod';
-import {
+  Input,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button, buttonVariants } from '@/components/ui/button';
+  Button,
+  buttonVariants,
+} from '@/components/ui';
+
+import { authClient } from '@/lib/auth-client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast  } from 'sonner';
+import z from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
-import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function SignInPage() {
   const form = useForm({
@@ -44,9 +45,7 @@ export default function SignInPage() {
         password: data.password,
         fetchOptions: {
           onSuccess: () => {
-            toast.success('Signed in Successfully', {
-              position: 'bottom-right',
-            });
+            toast.success('Signed in Successfully');
             router.push('/');
           },
           onError: (err) => {
@@ -73,10 +72,12 @@ export default function SignInPage() {
                 <Field>
                   <FieldLabel>Email</FieldLabel>
                   <Input
-                    className={buttonVariants({
-                      size: 'lg',
-                      variant: 'outline',
-                    })}
+                    className={cn(
+                      buttonVariants({
+                        size: 'lg',
+                        variant: 'outline',
+                      })
+                    )}
                     aria-invalid={fieldState.invalid}
                     type="email"
                     placeholder="Enter email"
@@ -98,10 +99,10 @@ export default function SignInPage() {
                 <Field>
                   <FieldLabel>Password</FieldLabel>
                   <Input
-                    className={buttonVariants({
+                    className={cn(buttonVariants({
                       size: 'lg',
                       variant: 'outline',
-                    })}
+                    }))}
                     aria-invalid={fieldState.invalid}
                     type="password"
                     autoComplete="current-password"
@@ -117,10 +118,12 @@ export default function SignInPage() {
             />
             <div className="gap-4" />
             <Button
-              className={buttonVariants({
-                variant: 'default',
-                size: 'lg',
-              })}>
+              className={cn(
+                buttonVariants({
+                  variant: 'default',
+                  size: 'lg',
+                })
+              )}>
               {isPending ?
                 <>
                   <Loader2 className="size-4 animate-spin" />

@@ -1,5 +1,4 @@
-import { buttonVariants } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { buttonVariants, Separator } from '@/components/ui';
 import { CommentSection } from '@/components/web/CommentSection';
 import { PostPresence } from '@/components/web/PostPresence';
 import { api } from '@/convex/_generated/api';
@@ -10,6 +9,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 interface PostIdRouteProps {
   params: Promise<{
@@ -59,7 +59,7 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
     <div className="max-w-3xl mx-auto py-8 px-4 animate-in fade-in duration-500 relative">
       <Link
         href="/blog"
-        className={buttonVariants({ variant: 'outline', className: 'mb-4' })}>
+        className={cn(buttonVariants({ variant: 'outline' }), 'mb-4')}>
         <ArrowLeft className="size-4" />
         Back to blog
       </Link>

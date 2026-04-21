@@ -1,4 +1,3 @@
-import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -6,14 +5,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+  Button,
+  buttonVariants,
+} from '@/components/ui';
 
 import { BookOpen, HomeIcon, PenTool } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default async function Home() {
-
   return (
     <div className="flex mb-12 flex-col ">
       {/* Hero Section */}
