@@ -171,7 +171,7 @@
   }
 
   button,
-  [role="button"],
+  [role='button'],
   a {
     cursor: pointer;
   }
@@ -218,7 +218,8 @@
 @layer components {
   /* Stepper Logic */
   .steps {
-    &:first-child, &:first-child > h3:first-child {
+    &:first-child,
+    &:first-child > h3:first-child {
       @apply mt-0!;
     }
     > h3 {

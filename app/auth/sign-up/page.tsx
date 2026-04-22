@@ -25,6 +25,7 @@ import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 export default function SignUpPage() {
   const form = useForm({
@@ -49,6 +50,11 @@ export default function SignUpPage() {
         {
           onSuccess: () => {
             toast.success('Signed up successfully!');
+            form.reset({
+              email: '',
+              name: '',
+              password: '',
+            });
             router.push('/');
           },
           onError: (err) => {
@@ -73,8 +79,9 @@ export default function SignUpPage() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Fullname</FieldLabel>
+                  <FieldLabel htmlFor="name">Fullname</FieldLabel>
                   <Input
+                    id="name"
                     className={cn(
                       buttonVariants({
                         size: 'lg',
@@ -87,6 +94,7 @@ export default function SignUpPage() {
                     autoComplete="name"
                     required
                     {...field}
+                    name="name"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -100,8 +108,9 @@ export default function SignUpPage() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Email</FieldLabel>
+                  <FieldLabel htmlFor="email">Email</FieldLabel>
                   <Input
+                    id="email"
                     className={cn(
                       buttonVariants({
                         size: 'lg',
@@ -114,6 +123,7 @@ export default function SignUpPage() {
                     autoComplete="email"
                     required
                     {...field}
+                    name="email"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -127,8 +137,9 @@ export default function SignUpPage() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Password</FieldLabel>
+                  <FieldLabel htmlFor="password">Password</FieldLabel>
                   <Input
+                    id="password"
                     className={cn(
                       buttonVariants({
                         size: 'lg',
@@ -141,6 +152,7 @@ export default function SignUpPage() {
                     placeholder="Enter password"
                     required
                     {...field}
+                    name="password"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -157,7 +169,10 @@ export default function SignUpPage() {
                 })
               )}>
               {isPending ?
-                <span>Loading...</span>
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  <span>Loading...</span>
+                </>
               : <span>Sign Up</span>}
             </Button>
           </FieldGroup>

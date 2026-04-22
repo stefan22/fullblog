@@ -4,10 +4,9 @@ A NextJS v. **16.2.3** Project
 
 Route groups • Dynamic route streaming • Suspense boundaries •
 Auth flow - Better Auth • Next Proxy •
-Server actions • Server-side/ Client-side validation                
-File upload Convex • Caching • Re-validation: Time-based/ On-demand • Image optimisation • Metadata • Dynamic generation Seo Tags • Cache components      
-Real-time comments Convex DB • Convex Presence (user status, # of online users) 
-
+Server actions • Server-side/ Client-side validation  
+File upload Convex • Caching • Re-validation: Time-based/ On-demand • Image optimisation • Metadata • Dynamic generation Seo Tags • Cache components  
+Real-time comments Convex DB • Convex Presence (user status, # of online users)
 
 ### Tech Stack
 
@@ -27,7 +26,6 @@ Prettier
 npm run dev
 ```
 
-
 ### Quick Start
 
 ```
@@ -41,6 +39,3 @@ npm run dev
 ```
 
 ![screenshot.png](/public/covers/screenshot.png)
-
-
-

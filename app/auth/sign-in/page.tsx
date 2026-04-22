@@ -19,7 +19,7 @@ import {
 
 import { authClient } from '@/lib/auth-client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast  } from 'sonner';
+import { toast } from 'sonner';
 import z from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -46,6 +46,10 @@ export default function SignInPage() {
         fetchOptions: {
           onSuccess: () => {
             toast.success('Signed in Successfully');
+            form.reset({
+              email: '',
+              password: '',
+            });
             router.push('/');
           },
           onError: (err) => {
@@ -70,8 +74,9 @@ export default function SignInPage() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Email</FieldLabel>
+                  <FieldLabel htmlFor="email">Email</FieldLabel>
                   <Input
+                    id="email"
                     className={cn(
                       buttonVariants({
                         size: 'lg',
@@ -84,6 +89,7 @@ export default function SignInPage() {
                     autoComplete="email"
                     required
                     {...field}
+                    name="email"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -97,18 +103,22 @@ export default function SignInPage() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Password</FieldLabel>
+                  <FieldLabel htmlFor="password">Password</FieldLabel>
                   <Input
-                    className={cn(buttonVariants({
-                      size: 'lg',
-                      variant: 'outline',
-                    }))}
+                    id="password"
+                    className={cn(
+                      buttonVariants({
+                        size: 'lg',
+                        variant: 'outline',
+                      })
+                    )}
                     aria-invalid={fieldState.invalid}
                     type="password"
                     autoComplete="current-password"
                     placeholder="Enter password"
                     required
                     {...field}
+                    name="password"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

@@ -7,7 +7,7 @@ import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react';
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!, {
   // requires user to be authenticated to fetch data
-  expectAuth: true,
+  expectAuth: false,
 });
 
 export function ConvexClientProvider({

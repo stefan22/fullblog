@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from 'react';
 import { Loader2, Search } from 'lucide-react';
 import { Input } from '../ui';
 import { useQuery } from 'convex/react';
-import { api } from '../../convex/_generated/api'
+import { api } from '../../convex/_generated/api';
 import Link from 'next/link';
 
 export function SearchInput() {
@@ -24,8 +24,9 @@ export function SearchInput() {
       <div className="relative">
         <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
         <Input
+          name="term"
           type="search"
-          placeholder="Signin to search..."
+          placeholder="Search..."
           className="w-full pl-8 bg-background"
           value={term}
           onChange={handleInputChange}

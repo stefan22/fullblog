@@ -16,20 +16,24 @@ import {
   Preloaded,
   usePreloadedQuery,
 } from 'convex/react';
+
 import { commentSchema } from '@/app/schemas/comment';
 
-import { Card, CardContent, CardHeader } from '../ui/card';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  Field,
+  FieldError,
+  FieldLabel,
+  Separator,
+  Textarea,
+  Button,
   Avatar,
   AvatarFallback,
   AvatarImage,
   AvatarBadge,
-} from '@/components/ui/avatar';
-
+} from '../ui';
 
 export function CommentSection(props: {
   preloadedComments: Preloaded<typeof api.comments.getCommentsByPostId>;
@@ -56,7 +60,7 @@ export function CommentSection(props: {
         await createComment(values);
         form.reset({ body: '', postId: params.postId });
         toast.success('Comment posted');
-      } catch (error) {
+      } catch {
         toast.error('Failed to create comment');
       }
     });
