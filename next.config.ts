@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
         port: '',
       },
       {
-        hostname: 'https://energetic-dachshund-222.eu-west-1.convex.cloud',
+        hostname: 'energetic-dachshund-222.eu-west-1.convex.cloud',
         protocol: 'https',
         port: '',
       },
