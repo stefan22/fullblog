@@ -11,10 +11,10 @@ import { fetchQuery } from 'convex/nextjs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Suspense } from 'react';
-//import { cacheLife, cacheTag } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import { Metadata } from 'next';
 import { cn } from '@/lib/utils';
-import { connection } from 'next/server';
+//import { connection } from 'next/server';
 
 export const metadata: Metadata = {
   title: 'CakeStack Dev Blog',
@@ -43,10 +43,10 @@ export default function BlogPage() {
 }
 
 const LoadBlogList = async () => {
-  // 'use cache';
-  // cacheLife('hours');
-  // cacheTag('blog');
-  await connection();
+  'use cache';
+  cacheLife('hours');
+  cacheTag('blog');
+  //await connection();
 
   const data = await fetchQuery(api.posts.getPosts);
 
