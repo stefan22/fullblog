@@ -6,9 +6,7 @@ const configDir = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   turbopack: {
-    // When a lockfile exists above this repo (e.g. ~/package-lock.json), Next can infer
-    // the wrong Turbopack root so `@import 'tailwindcss'` resolves outside `node_modules`
-    // (`Can't resolve 'tailwindcss' in '.../Developer/Repos'`). Pinning root fixes dev.
+    // When a lockfile exists above this repo (e.g. ~/package-lock.json), Next can infer the wrong Turbopack root
     root: configDir,
   },
   cacheComponents: true,
