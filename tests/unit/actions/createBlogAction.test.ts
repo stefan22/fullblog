@@ -21,12 +21,12 @@ vi.mock('next/navigation', () => ({
   redirect,
 }));
 
-function validInput() {
-  return {
-    title: '123456',
-    content: '1234567890',
-    image: new File([], 'cover.png', { type: 'image/png' }),
-  };
+function validFormData() {
+  const formData = new FormData();
+  formData.append('title', '123456');
+  formData.append('content', '1234567890');
+  formData.append('image', new File([], 'cover.png', { type: 'image/png' }));
+  return formData;
 }
 
 describe('createBlogAction', () => {
@@ -40,11 +40,15 @@ describe('createBlogAction', () => {
   it('returns generic error when validation fails', async () => {
     const { createBlogAction } = await import('@/app/actions');
 
-    const result = await createBlogAction({
-      title: 'short',
-      content: '1234567890',
-      image: validInput().image,
-    });
+    const formData = new FormData();
+    formData.append('title', 'short');
+    formData.append('content', '1234567890');
+    formData.append(
+      'image',
+      new File([], 'cover.png', { type: 'image/png' })
+    );
+
+    const result = await createBlogAction(formData);
 
     expect(result).toEqual({ error: 'Failed to create blog post' });
     expect(fetchMutation).not.toHaveBeenCalled();
@@ -60,7 +64,7 @@ describe('createBlogAction', () => {
 
     const { createBlogAction } = await import('@/app/actions');
 
-    const result = await createBlogAction(validInput());
+    const result = await createBlogAction(validFormData());
 
     expect(result).toEqual({ error: 'Failed to upload image' });
     expect(fetchMutation).toHaveBeenCalledTimes(1);
@@ -80,7 +84,9 @@ describe('createBlogAction', () => {
 
     const { createBlogAction } = await import('@/app/actions');
 
-    await expect(createBlogAction(validInput())).rejects.toThrow('NEXT_REDIRECT');
+    await expect(createBlogAction(validFormData())).rejects.toThrow(
+      'NEXT_REDIRECT'
+    );
 
     expect(fetchMutation).toHaveBeenCalledTimes(2);
     expect(global.fetch).toHaveBeenCalledWith(
@@ -100,7 +106,7 @@ describe('createBlogAction', () => {
 
     const { createBlogAction } = await import('@/app/actions');
 
-    const result = await createBlogAction(validInput());
+    const result = await createBlogAction(validFormData());
 
     expect(result).toEqual({ error: 'Failed to create blog post' });
   });

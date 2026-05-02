@@ -38,7 +38,11 @@ export default function CreateRoute() {
 
   function onSubmit(values: z.infer<typeof postSchema>) {
     startTransition(async () => {
-      await createBlogAction(values);
+      const formData = new FormData();
+      formData.append('title', values.title);
+      formData.append('content', values.content);
+      formData.append('image', values.image);
+      await createBlogAction(formData);
     });
   }
 
