@@ -1,16 +1,23 @@
 'use server';
 
 import { postSchema } from '@/app/schemas/blog';
-import z from 'zod';
 import { fetchMutation } from 'convex/nextjs';
 import { api } from '@/convex/_generated/api';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getToken } from '@/lib/auth-server';
 
-export async function createBlogAction(values: z.infer<typeof postSchema>) {
+/**
+ * Uses FormData so the browser sends a real File (Next Server Actions cannot
+ * reliably serialize File inside a plain POJO argument from the client.)
+ */
+export async function createBlogAction(formData: FormData) {
   try {
-    const parsed = postSchema.safeParse(values);
+    const parsed = postSchema.safeParse({
+      title: formData.get('title'),
+      content: formData.get('content'),
+      image: formData.get('image'),
+    });
 
     if (!parsed.success) {
       throw new Error('Something went wrong');
