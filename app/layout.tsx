@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
@@ -46,6 +47,7 @@ export default function RootLayout({
             containerAriaLabel="Notifications"
           />
         </ThemeProvider>
+      <Analytics />
       </body>
     </html>
   );
