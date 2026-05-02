@@ -1,16 +1,12 @@
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { test, expect } from '@playwright/test';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const fixturePng = path.join(__dirname, 'fixtures', 'tiny.png');
+const fixturePng = path.join(process.cwd(), 'tests/e2e/fixtures', 'tiny.png');
 
-test.describe('sign up and create post', () => {
-  test.skip(
-    !!process.env.E2E_SKIP_CREATE_JOURNEY,
-    'E2E_SKIP_CREATE_JOURNEY is set'
-  );
+const describeCreate =
+  process.env.E2E_SKIP_CREATE_JOURNEY ? test.describe.skip : test.describe;
 
+describeCreate('sign up and create post', () => {
   test('registers a new user and creates a post', async ({ page }) => {
     test.setTimeout(120_000);
 
