@@ -7,6 +7,7 @@ import { render, screen } from '@testing-library/react';
 // mock convex lib - top level req
 vi.mock('convex/react', () => ({
   useConvexAuth: vi.fn(),
+  useQuery: vi.fn(() => undefined),
 }));
 
 vi.mock('next/navigation', async (importOriginal) => {
