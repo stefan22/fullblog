@@ -5,8 +5,9 @@
 Use the same environment variables as local Next.js development so the app can reach Convex and Better Auth:
 
 - `NEXT_PUBLIC_CONVEX_URL`
-- `NEXT_PUBLIC_CONVEX_SITE_URL`
-- `SITE_URL` (Better Auth / Convex auth; typically `http://127.0.0.1:3000` when testing locally)
+- `NEXT_PUBLIC_CONVEX_SITE_URL` (must end in **`.convex.site`**, not `.convex.cloud`)
+- `NEXT_PUBLIC_SITE_URL` — your Next app origin (e.g. `http://localhost:3000`); should match what you type in the browser
+- **`SITE_URL` on your Convex deployment** (Dashboard → Settings → Environment Variables, or `npx convex env set SITE_URL ...`) — **must match `NEXT_PUBLIC_SITE_URL` exactly** (including `localhost` vs `127.0.0.1`). Sign-in can 500 if Convex `SITE_URL` is missing or wrong.
 
 Place them in `.env.local` (loaded automatically by `next dev`) or export them in your shell before running tests.
 
