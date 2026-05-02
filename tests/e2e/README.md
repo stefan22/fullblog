@@ -10,7 +10,7 @@ Use the same environment variables as local Next.js development so the app can r
 
 Place them in `.env.local` (loaded automatically by `next dev`) or export them in your shell before running tests.
 
-Install browsers once:
+Install browsers once (match your CPU architecture; use `--force` after switching machines or if Playwright reports a missing executable):
 
 ```bash
 npx playwright install chromium
@@ -23,7 +23,7 @@ npm run test:e2e      # headless
 npm run test:e2e:ui   # interactive UI mode
 ```
 
-`playwright.config.ts` starts `npm run dev` unless `CI` is set; with `CI`, ensure the app is already running and matches `PLAYWRIGHT_BASE_URL` (default `http://127.0.0.1:3000`).
+`playwright.config.ts` starts `npm run dev` unless `CI` is set; with `CI`, ensure the app is already running and matches `PLAYWRIGHT_BASE_URL` (default `http://localhost:3000`).
 
 ## Optional env toggles
 
