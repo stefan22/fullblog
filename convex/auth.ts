@@ -16,6 +16,19 @@ function requireConvexSiteUrl() {
   return url;
 }
 
+/** Used to encrypt JWKS private keys; must stay stable unless you rotate & clear JWKS. */
+function requireBetterAuthSecret() {
+  const secret =
+    process.env.BETTER_AUTH_SECRET?.trim() ||
+    process.env.AUTH_SECRET?.trim();
+  if (!secret) {
+    throw new Error(
+      'Set Convex env BETTER_AUTH_SECRET (min 32 chars). Generate: openssl rand -base64 32. If you rotated it, clear JWKS (see convex/authJwksMaintenance.ts) or decryption will fail.'
+    );
+  }
+  return secret;
+}
+
 // The component client has methods needed for integrating Convex with Better Auth,
 // as well as helper methods for general use.
 export const authComponent = createClient<DataModel>(components.betterAuth);
@@ -24,6 +37,7 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
   const siteUrl = requireConvexSiteUrl();
   return betterAuth({
     baseURL: siteUrl,
+    secret: requireBetterAuthSecret(),
     database: authComponent.adapter(ctx),
     // Configure simple, non-verified email/password to get started
     emailAndPassword: {
