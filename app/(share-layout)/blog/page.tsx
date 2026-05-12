@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import { cacheLife, cacheTag } from 'next/cache';
 import { Metadata } from 'next';
+import { stripMarkdown } from '@/lib/markdown';
 import { cn } from '@/lib/utils';
 //import { connection } from 'next/server';
 
@@ -74,7 +75,9 @@ const LoadBlogList = async () => {
             </h1>
           </CardTitle>
           <CardContent>
-            <p className="text-muted-foreground line-clamp-3">{post.body}</p>
+            <p className="text-muted-foreground line-clamp-3">
+              {stripMarkdown(post.body)}
+            </p>
           </CardContent>
           <CardFooter>
             <Link

@@ -61,6 +61,51 @@ export const generateImageUploadUrl = mutation({
   },
 });
 
+export const updatePost = mutation({
+  args: {
+    postId: v.id('posts'),
+    title: v.string(),
+    body: v.string(),
+    imageStorageId: v.optional(v.id('_storage')),
+  },
+  handler: async (ctx, args) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+
+    if (!user) {
+      throw new ConvexError('Not authenticated');
+    }
+
+    const post = await ctx.db.get(args.postId);
+
+    if (!post) {
+      throw new ConvexError('Post not found');
+    }
+
+    if (post.authorId !== user._id) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    const patch: {
+      title: string;
+      body: string;
+      updatedAt: number;
+      imageStorageId?: typeof args.imageStorageId;
+    } = {
+      title: args.title,
+      body: args.body,
+      updatedAt: Date.now(),
+    };
+
+    if (args.imageStorageId !== undefined) {
+      patch.imageStorageId = args.imageStorageId;
+    }
+
+    await ctx.db.patch(args.postId, patch);
+
+    return args.postId;
+  },
+});
+
 export const getPostById = query({
   args: {
     postId: v.id('posts'),

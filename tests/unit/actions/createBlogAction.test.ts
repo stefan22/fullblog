@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const fetchMutation = vi.fn();
 const getToken = vi.fn();
 const revalidatePath = vi.fn();
+const revalidateTag = vi.fn();
 const redirect = vi.fn();
 
 vi.mock('convex/nextjs', () => ({
@@ -15,10 +16,16 @@ vi.mock('@/lib/auth-server', () => ({
 
 vi.mock('next/cache', () => ({
   revalidatePath,
+  revalidateTag,
 }));
 
 vi.mock('next/navigation', () => ({
   redirect,
+}));
+
+vi.mock('next/dist/client/components/redirect-error', () => ({
+  isRedirectError: (error: unknown) =>
+    error instanceof Error && error.message === 'NEXT_REDIRECT',
 }));
 
 function validFormData() {
@@ -68,15 +75,16 @@ describe('createBlogAction', () => {
 
     expect(result).toEqual({ error: 'Failed to upload image' });
     expect(fetchMutation).toHaveBeenCalledTimes(1);
-    expect(revalidatePath).not.toHaveBeenCalled();
+    expect(revalidateTag).not.toHaveBeenCalled();
     expect(redirect).not.toHaveBeenCalled();
   });
 
   it('calls mutations, revalidates, and redirects on success', async () => {
+    const postId = 'kg_post_test123';
     getToken.mockResolvedValue('test-token');
     fetchMutation
       .mockResolvedValueOnce('https://upload.example/upload')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(postId);
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ storageId: 'kg_storage_test123' }),
@@ -89,15 +97,10 @@ describe('createBlogAction', () => {
     );
 
     expect(fetchMutation).toHaveBeenCalledTimes(2);
-    expect(global.fetch).toHaveBeenCalledWith(
-      'https://upload.example/upload',
-      expect.objectContaining({
-        method: 'POST',
-        headers: { 'Content-Type': 'image/png' },
-      })
-    );
+    expect(revalidateTag).toHaveBeenCalledWith('blog', 'hours');
+    expect(revalidateTag).toHaveBeenCalledWith(`post:${postId}`, 'hours');
     expect(revalidatePath).toHaveBeenCalledWith('/blog');
-    expect(redirect).toHaveBeenCalledWith('/blog');
+    expect(redirect).toHaveBeenCalledWith(`/blog/${postId}`);
   });
 
   it('returns generic error when fetchMutation throws', async () => {
