@@ -13,5 +13,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // proxy routes
-  matcher: ['/create', '/dashboard'],
+  matcher: ['/create', '/dashboard', '/blog/:postId/edit'],
 };

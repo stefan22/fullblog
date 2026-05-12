@@ -1,51 +1,7 @@
-'use client';
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  Button,
-  buttonVariants,
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  Input,
-  Textarea,
-} from '@/components/ui';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
-import { postSchema } from '@/app/schemas/blog';
-import z from 'zod';
+import { PostEditor } from '@/components/web/PostEditor';
 import { createBlogAction } from '@/app/actions';
-import { useTransition } from 'react';
 
 export default function CreateRoute() {
-  const [isPending, startTransition] = useTransition();
-
-  const form = useForm({
-    resolver: zodResolver(postSchema),
-    defaultValues: {
-      content: '',
-      title: '',
-      image: undefined,
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof postSchema>) {
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.append('title', values.title);
-      formData.append('content', values.content);
-      formData.append('image', values.image);
-      await createBlogAction(formData);
-    });
-  }
-
   return (
     <div className="py-12">
       <div className="text-center mb-12">
@@ -57,90 +13,7 @@ export default function CreateRoute() {
         </p>
       </div>
 
-      <Card className="w-full max-w-xl mx-auto">
-        <CardHeader>
-          <CardTitle>Create Blog Article</CardTitle>
-          <CardDescription>Create a new blog article</CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FieldGroup className="gap-y-4">
-              <Controller
-                name="title"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field>
-                    <FieldLabel>Title</FieldLabel>
-                    <Input
-                      aria-invalid={fieldState.invalid}
-                      placeholder="enter post title ..."
-                      {...field}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
-              <Controller
-                name="content"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field>
-                    <FieldLabel>Content</FieldLabel>
-                    <Textarea
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Enter post content ..."
-                      {...field}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
-              <Controller
-                name="image"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field>
-                    <FieldLabel>Image</FieldLabel>
-                    <Input
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Super cool blog content"
-                      type="file"
-                      accept="image/*"
-                      onChange={(event) => {
-                        const file = event.target.files?.[0];
-                        field.onChange(file);
-                      }}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
-              <Button
-                className={buttonVariants({
-                  variant: 'default',
-                  size: 'lg',
-                })}>
-                {isPending ?
-                  <>
-                    <Loader2 className="size-4 animate-spin" />
-                    <span>Loading...</span>
-                  </>
-                : <span>Create Post</span>}
-              </Button>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
+      <PostEditor mode="create" onSubmit={createBlogAction} />
     </div>
   );
 }
