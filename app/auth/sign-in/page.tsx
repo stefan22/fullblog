@@ -87,17 +87,24 @@ export default function SignInPage() {
           <div className="flex mt-4 md:hidden" />
 
           <div className="flex flex-col-reverse md:flex-col justify-center w-full">
-            <div>
-              <Link
-                href="#"
-                className="flex items-center justify-center mb-4 text-white rounded-lg shadow-none md:shadow-md hover:bg-gray-100">
+            <div className="flex w-full items-center justify-center">
+              <Button
+                type="button"
+                onClick={() =>
+                  authClient.signIn.social({
+                    provider: 'google',
+                    callbackURL: '/',
+                  })
+                }
+                className="flex items-center justify-center mb-4 rounded-lg shadow-none md:shadow-md hover:bg-gray-100 bg-transparent border border-gray-200">
                 <div className="px-0 py-3">
                   <GoogleLogo />
                 </div>
-                <h2 className="px-0 md:px-4 py-3 w-4/8 text-center text-gray-600 font-bold">
+
+                <h2 className="px-0 md:px-4 py-3 text-center text-gray-600 font-bold">
                   Sign in with Google
                 </h2>
-              </Link>
+              </Button>
             </div>
 
             <div className="my-4 flex items-center justify-between">
@@ -132,7 +139,8 @@ export default function SignInPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="email"
@@ -161,7 +169,8 @@ export default function SignInPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="password"
