@@ -127,7 +127,8 @@ export default function SignUpPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="text"
@@ -158,7 +159,8 @@ export default function SignUpPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="email"
@@ -187,7 +189,8 @@ export default function SignUpPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="password"
