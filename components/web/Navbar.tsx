@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useTransition } from 'react';
+import { useTransition, ViewTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useConvexAuth } from 'convex/react';
 import { toast } from 'sonner';
@@ -44,23 +44,36 @@ const Navbar = () => {
     <nav className="w-full py-5 flex items-center justify-between">
       {/* Left Section */}
       <div className="flex items-center gap-8">
-
-          <h1 className="text-3xl font-bold leading-none">
-            <Link href="/" className="flex items-baseline text-2xl font-semibold text-neutral-900">
-              Cake<span className="text-sm inline-flex text-yellow-600">®</span>Stack
-            </Link>
-          </h1>
+        <h1 className="text-3xl font-bold leading-none">
+          <Link
+            href="/"
+            className="flex items-baseline text-2xl font-semibold text-neutral-900">
+            Cake<span className="text-sm inline-flex text-yellow-600">®</span>
+            Stack
+          </Link>
+        </h1>
 
         <div className="hidden sm:flex items-baseline gap-2 mt-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.id}
-              href={link.href}
-              data-testid={`nav-link-${link.id}`}
-              className={buttonVariants({ variant: 'ghost' })}>
-              {link.label}
-            </Link>
-          ))}
+          <ViewTransition
+            onEnter={(instance, types) => {
+              const anim = instance.new.animate(
+                [{ opacity: 0 }, { opacity: 1 }],
+                {
+                  duration: 500,
+                }
+              );
+              return () => anim.cancel();
+            }}>
+            {navLinks.map((link) => (
+              <Link
+                key={link.id}
+                href={link.href}
+                data-testid={`nav-link-${link.id}`}
+                className={buttonVariants({ variant: 'ghost' })}>
+                {link.label}
+              </Link>
+            ))}
+          </ViewTransition>
         </div>
       </div>
 
@@ -72,7 +85,18 @@ const Navbar = () => {
 
         {!isLoading && (
           <div className="flex items-center gap-2">
+
             {isAuthenticated ?
+              <ViewTransition
+                onEnter={(instance, types) => {
+                  const anim = instance.new.animate(
+                    [{ opacity: 0 }, { opacity: 1 }],
+                    {
+                      duration: 500,
+                    }
+                  );
+                  return () => anim.cancel();
+                }}>
               <Button
                 variant="destructive"
                 data-testid="nav-link-signout"
@@ -82,7 +106,19 @@ const Navbar = () => {
                   <span>See ya!</span>
                 : <span>Sign Out</span>}
               </Button>
-            : <>
+              </ViewTransition>
+            :
+              <ViewTransition
+                onEnter={(instance, types) => {
+                  const anim = instance.new.animate(
+                    [{ opacity: 0 }, { opacity: 1 }],
+                    {
+                      duration: 500,
+                    }
+                  );
+                  return () => anim.cancel();
+                }}>
+
                 <Link
                   data-testid="nav-link-signup"
                   className={buttonVariants()}
@@ -96,8 +132,10 @@ const Navbar = () => {
                   href="/auth/sign-in">
                   Sign In
                 </Link>
-              </>
+
+              </ViewTransition>
             }
+
           </div>
         )}
 

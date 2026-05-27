@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
     // When a lockfile exists above this repo (e.g. ~/package-lock.json), Next can infer the wrong Turbopack root
     root: configDir,
   },
+  experimental: {
+    viewTransition: true,
+  },
   cacheComponents: true,
   images: {
     remotePatterns: [

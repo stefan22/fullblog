@@ -81,8 +81,8 @@ export default function SignUpPage() {
           className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
         />
 
-        <div className="w-full p-0 md:p-4 lg:w-1/2">
-          <h1 className="text-3xl font-semibold text-gray-700 text-center">
+        <div className="w-full p-0 md:px-4 py-2 lg:w-1/2 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <h1 className="text-5xl md:text-4xl px-6 font-semibold text-gray-700 text-center">
             Because your 3am Ideas Deserve Better!
           </h1>
 
@@ -106,8 +106,8 @@ export default function SignUpPage() {
             </div>
 
             <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 mt-3 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <CardHeader>
-                <CardTitle>Sign Up</CardTitle>
+              <CardHeader className="flex w-full flex-col items-center justify-center">
+                <CardTitle className="text-3xl">Sign Up</CardTitle>
                 <CardDescription>
                   Create an account to get started
                 </CardDescription>
