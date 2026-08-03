@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   description: 'Web Development Posts',
   category: 'Frontend Development',
   authors: [{ name: 'Admin@CakeStack.uk' }],
+  alternates: {
+    canonical: '/blog',
+  },
 };
 
 export default function BlogPage() {

@@ -6,6 +6,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { ConvexClientProvider } from '@/components/web/ConvexClientProvider';
 import { Toaster } from '@/components/ui';
+import { SITE_URL } from '@/lib/site';
 
 const interSans = Inter({
   variable: '--font-inter-sans',
@@ -18,9 +19,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'CakeStack Blog',
   description:
     'Fullstack Next.js, React, Shadcn, Tailwind, Convex, Better Auth',
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function RootLayout({

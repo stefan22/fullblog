@@ -34,6 +34,9 @@ export async function generateMetadata({
     title: post.title,
     description: post.body.slice(0, 160),
     authors: [{ name: 'admin@CakeStack' }],
+    alternates: {
+      canonical: `/blog/${postId}`,
+    },
   };
 }
 
