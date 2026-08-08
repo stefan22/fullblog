@@ -18,13 +18,33 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const DEFAULT_TITLE = 'CakeStack Blog';
+const DEFAULT_DESCRIPTION =
+  'Fullstack Next.js, React, Shadcn, Tailwind, Convex, Better Auth';
+// Falls back to this on any page that doesn't set its own openGraph/twitter
+// images (e.g. the homepage), so shares never render with a blank preview.
+const DEFAULT_OG_IMAGE = '/covers/screenshot.png';
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'CakeStack Blog',
-  description:
-    'Fullstack Next.js, React, Shadcn, Tailwind, Convex, Better Auth',
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
   alternates: {
     canonical: '/',
+  },
+  openGraph: {
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    siteName: 'CakeStack',
+    type: 'website',
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1439, height: 958 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

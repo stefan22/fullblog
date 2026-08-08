@@ -24,12 +24,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let postRoutes: MetadataRoute.Sitemap = [];
   try {
     const posts = await fetchQuery(api.posts.getPosts);
-    postRoutes = posts.map((post) => ({
-      url: `${SITE_URL}/blog/${post._id}`,
-      lastModified: new Date(post.updatedAt ?? post._creationTime),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    }));
+    postRoutes = posts
+      // Skip any post that hasn't been backfilled with a slug yet — avoids
+      // submitting a /blog/{id} URL to Google that the site no longer serves.
+      .filter((post) => post.slug)
+      .map((post) => ({
+        url: `${SITE_URL}/blog/${post.slug}`,
+        lastModified: new Date(post.updatedAt ?? post._creationTime),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }));
   } catch {
     // Convex unavailable at build time — still ship static routes.
   }
