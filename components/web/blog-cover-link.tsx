@@ -12,7 +12,7 @@ import {
   useInView,
   type Variants,
 } from 'motion/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 
 type BlogCoverLinkProps = {
   post: {
@@ -85,24 +85,31 @@ type BlogCoverFooterProps = {
 export const BlogCoverFooter = ({ post }: BlogCoverFooterProps) => {
   const baseText = `Read fast 💥 more...`;
   const ref = useRef<HTMLSpanElement>(null);
+
+  // 1. Array.from properly splits multi-byte Unicode/emojis without breaking surrogate pairs
+  const characters = useMemo(() => Array.from(baseText), [baseText]);
+
   const isInView = useInView(ref, { once: false, amount: 0.5 });
   const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => Math.round(latest));
-  const displayText = useTransform(rounded, (latest) =>
-    baseText.slice(0, latest)
-  );
+
+  // 2. Animate index position directly against Unicode-aware character array
+  const displayText = useTransform(count, (latest) => {
+    const index = Math.round(latest);
+    return characters.slice(0, index).join('');
+  });
 
   useEffect(() => {
     if (!isInView) return;
 
     count.set(0);
-    const controls = animate(count, baseText.length, {
+    const controls = animate(count, characters.length, {
       type: 'tween',
       duration: 1.2,
       ease: 'easeInOut',
     });
-    return controls.stop;
-  }, [isInView, baseText, count]);
+
+    return () => controls.stop();
+  }, [isInView, characters.length, count]);
 
   return (
     <CardFooter>
