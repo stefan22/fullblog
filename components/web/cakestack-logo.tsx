@@ -8,6 +8,8 @@ import { CakeStack } from '@/components/web/cake-stack';
 export interface CakeStackLogoProps {
   size?: number;
   showWordmark?: boolean;
+  /** Delay the wordmark draw until it scrolls into view. */
+  playOnView?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -15,6 +17,7 @@ export interface CakeStackLogoProps {
 export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
   size = 32,
   showWordmark = true,
+  playOnView = false,
   className,
   style,
 }) => {
@@ -41,6 +44,7 @@ export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
 
       {showWordmark && (
         <CakeStack
+          playOnView={playOnView}
           className="w-auto text-foreground"
           style={{ height: `${size * 0.62}px` }}
         />

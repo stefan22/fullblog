@@ -3,6 +3,7 @@
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+import { useInView } from 'motion/react';
 import type * as React from 'react';
 import { useRef } from 'react';
 
@@ -23,19 +24,32 @@ const LETTERS = [
 ];
 
 /**
- * Wordmark that strokes each letter on, then fills it in, once per page load.
+ * Wordmark that strokes each letter on, then fills it in.
+ *
+ * Runs once on mount by default. Set `playOnView` where the wordmark sits
+ * below the fold (the footer) — on mount the draw would finish unseen and the
+ * reader would only ever meet the finished word.
  */
 export function CakeStack({
   className,
   style,
+  playOnView = false,
 }: {
   className?: string;
   style?: React.CSSProperties;
+  playOnView?: boolean;
 }) {
   const container = useRef<SVGSVGElement>(null);
+  // Same in-view primitive BlurFade uses. ScrollTrigger is the GSAP-native
+  // option, but PageTransition puts a transform on an ancestor and its scroll
+  // math never resolves through that.
+  const inView = useInView(container, { once: true, amount: 0.6 });
+  const shouldPlay = !playOnView || inView;
 
   useGSAP(
     () => {
+      if (!shouldPlay) return;
+
       gsap
         .timeline()
         .set('path', { drawSVG: '0%' })
@@ -60,7 +74,7 @@ export function CakeStack({
           0.75
         );
     },
-    { scope: container }
+    { scope: container, dependencies: [shouldPlay] }
   );
 
   return (
